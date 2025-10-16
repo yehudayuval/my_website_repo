@@ -83,7 +83,7 @@ const verifyAdmin = async (req, res, next) => {
     return res.status(401).json({ error: 'טוקן לא תקין' });
   }
 };
-
+// TODO: delete this file and keep initDatabase function in a separate db.js file
 // Initialize database tables
 async function initDatabase() {
   try {

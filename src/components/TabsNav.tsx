@@ -11,7 +11,6 @@ const tabs: { key: AdminTabKey; label: string }[] = [
   { key: 'reviews', label: 'Reviews' },
   { key: 'upload-review', label: 'Upload Review' },
   { key: 'gallery', label: 'Image Gallery' },
-  { key: 'customer-reviews', label: 'Customer Reviews' },
 ];
 
 export function TabsNav({ activeTab, onChange }: Props) {

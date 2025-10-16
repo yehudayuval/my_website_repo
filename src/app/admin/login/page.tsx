@@ -46,25 +46,6 @@ export default function AdminLoginPage() {
       style={{ fontFamily: 'Inter, "Noto Sans", sans-serif' }}
     >
       <div className="layout-container flex h-full grow flex-col">
-        <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f0f3f4] px-4 sm:px-6 lg:px-10 py-3">
-          <div className="flex items-center gap-3 text-[#111618]">
-            <div className="size-4">
-              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fillRule="evenodd" clipRule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fill="currentColor"></path>
-              </svg>
-            </div>
-            <h2 className="text-[#111618] text-base sm:text-lg font-bold leading-tight tracking-[-0.015em]">Lift Co Admin</h2>
-          </div>
-          <div className="flex flex-1 justify-end">
-            <div
-              className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 hidden sm:block"
-              style={{
-                backgroundImage:
-                  'url("https://lh3.googleusercontent.com/aida-public/AB6AXuC2gAuaZA_og_hvlnCSNoqUQ32_vRYICgvjTv0Ou44_LOUO-eBKJbldjMThgeQsGaBuCJN2FAdc5I-_3VE2TMMgz2qLRIBPaaKH0DwE3LJhbEfk9l3cJoYNoDg3wbNit1fwCDD1N6wkklJmIXjDS1emy4uSCvny8QNsWELG-j6uHzutisLtARGFZYMJ4siIh2Jb9_wjVxXRJVeFZkxp9HQP-XU_vzlwS8xiEL6kWa8PtIxd4KHYHVd9auF5DFhns8amwJSj82kMZORY")',
-              }}
-            />
-          </div>
-        </header>
 
         <main className="px-4 sm:px-6 lg:px-10 flex flex-1 justify-center py-6">
           <form

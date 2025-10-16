@@ -17,7 +17,7 @@ type Props = {
 };
 
 // TODO: exchange it to server component and fetch real data
-// and correct styles.
+// and correct styles. made the table mutch the mobile screens
 export function ReviewsTable({ reviews, onDelete }: Props) {
   return (
     <section className="w-full">
@@ -32,7 +32,7 @@ export function ReviewsTable({ reviews, onDelete }: Props) {
                 <th className="table-col-120 px-4 py-3 text-left text-[#111618] w-[400px] text-sm font-medium leading-normal">Name</th>
                 <th className="table-col-240 px-4 py-3 text-left text-[#111618] w-[400px] text-sm font-medium leading-normal">Review</th>
                 <th className="table-col-360 px-4 py-3 text-left text-[#111618] w-60 text-sm font-medium leading-normal">Rating</th>
-                <th className="table-col-480 px-4 py-3 text-left text-[#111618] w-60 text-[#617c89] text-sm font-medium leading-normal">Actions</th>
+                <th className="table-col-480 px-4 py-3 text-left text-[#111618] w-60 text-sm font-medium leading-normal">Actions</th>
               </tr>
             </thead>
             <tbody>

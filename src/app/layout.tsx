@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "מנופי רמון - מנופים איכותיים לחיי השניך",
@@ -25,7 +27,13 @@ export default function RootLayout({
       {/* TODO: add header and some classes here */}
       {/* <body className="antialiased font-heebo"> */}
       <body className="">
-        {children}
+        <div className="relative flex h-auto min-h-screen w-full flex-col bg-white group/design-root overflow-x-hidden" style={{ fontFamily: 'Inter, "Noto Sans", sans-serif' }}>
+          <div className="flex h-dvh grow flex-col">
+            <Header />
+            {children}
+            <Footer />
+          </div>
+        </div>
       </body>
     </html>
   );

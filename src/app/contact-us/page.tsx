@@ -1,128 +1,81 @@
 
 export default function ContactUs() {
   return (
-<div className="relative flex h-auto min-h-screen w-full flex-col bg-white group/design-root overflow-x-hidden" style={{ fontFamily: 'Inter, "Noto Sans", sans-serif' }}>
-      <div className="layout-container flex h-full grow flex-col">
-        <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f0f3f4] px-10 py-3">
-          <div className="flex items-center gap-4 text-[#111618]">
-            <div className="size-4">
-              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clipPath="url(#clip0_6_535)">
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z"
-                    fill="currentColor"
-                  ></path>
-                </g>
-                <defs>
-                  <clipPath id="clip0_6_535"><rect width="48" height="48" fill="white"></rect></clipPath>
-                </defs>
-              </svg>
-            </div>
-            <h2 className="text-[#111618] text-lg font-bold leading-tight tracking-[-0.015em]">Lift Solutions</h2>
-          </div>
-          <div className="flex flex-1 justify-end gap-8">
-            <div className="flex items-center gap-9">
-              <a className="text-[#111618] text-sm font-medium leading-normal" href="#">Home</a>
-              <a className="text-[#111618] text-sm font-medium leading-normal" href="#">Products</a>
-              <a className="text-[#111618] text-sm font-medium leading-normal" href="#">Services</a>
-              <a className="text-[#111618] text-sm font-medium leading-normal" href="#">About Us</a>
-            </div>
-            <button
-              className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#13a4ec] text-white text-sm font-bold leading-normal tracking-[0.015em]"
-            >
-              <span className="truncate">Get a Quote</span>
-            </button>
-          </div>
-        </header>
-        <div className="px-40 flex flex-1 justify-center py-5">
-          <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
-            <div className="flex flex-wrap justify-between gap-3 p-4">
-              <div className="flex min-w-72 flex-col gap-3">
-                <p className="text-[#111618] tracking-light text-[32px] font-bold leading-tight">Contact Us</p>
-                <p className="text-[#617c89] text-sm font-normal leading-normal">We're here to help. Reach out to us with any questions or inquiries.</p>
-              </div>
-            </div>
-            <div className="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label className="flex flex-col min-w-40 flex-1">
-                <p className="text-[#111618] text-base font-medium leading-normal pb-2">Name</p>
-                <input
-                  placeholder="Enter your name"
-                  className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111618] focus:outline-0 focus:ring-0 border border-[#dbe2e6] bg-white focus:border-[#dbe2e6] h-14 placeholder:text-[#617c89] p-[15px] text-base font-normal leading-normal"
-                  value=""
-                />
-              </label>
-            </div>
-            <div className="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label className="flex flex-col min-w-40 flex-1">
-                <p className="text-[#111618] text-base font-medium leading-normal pb-2">Email</p>
-                <input
-                  placeholder="Enter your email"
-                  className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111618] focus:outline-0 focus:ring-0 border border-[#dbe2e6] bg-white focus:border-[#dbe2e6] h-14 placeholder:text-[#617c89] p-[15px] text-base font-normal leading-normal"
-                  value=""
-                />
-              </label>
-            </div>
-            <div className="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label className="flex flex-col min-w-40 flex-1">
-                <p className="text-[#111618] text-base font-medium leading-normal pb-2">Phone Number</p>
-                <input
-                  placeholder="Enter your phone number"
-                  className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111618] focus:outline-0 focus:ring-0 border border-[#dbe2e6] bg-white focus:border-[#dbe2e6] h-14 placeholder:text-[#617c89] p-[15px] text-base font-normal leading-normal"
-                  value=""
-                />
-              </label>
-            </div>
-            <div className="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label className="flex flex-col min-w-40 flex-1">
-                <p className="text-[#111618] text-base font-medium leading-normal pb-2">Subject</p>
-                <input
-                  placeholder="Enter the subject"
-                  className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111618] focus:outline-0 focus:ring-0 border border-[#dbe2e6] bg-white focus:border-[#dbe2e6] h-14 placeholder:text-[#617c89] p-[15px] text-base font-normal leading-normal"
-                  value=""
-                />
-              </label>
-            </div>
-            <div className="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-              <label className="flex flex-col min-w-40 flex-1">
-                <p className="text-[#111618] text-base font-medium leading-normal pb-2">Message</p>
-                <textarea
-                  placeholder="Enter your message"
-                  className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111618] focus:outline-0 focus:ring-0 border border-[#dbe2e6] bg-white focus:border-[#dbe2e6] min-h-36 placeholder:text-[#617c89] p-[15px] text-base font-normal leading-normal"
-                ></textarea>
-              </label>
-            </div>
-            <div className="flex px-4 py-3 justify-start">
-              <button
-                className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#13a4ec] text-white text-sm font-bold leading-normal tracking-[0.015em]"
-              >
-                <span className="truncate">Submit</span>
-              </button>
-            </div>
-            <h3 className="text-[#111618] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Our Contact Information</h3>
-            <p className="text-[#111618] text-base font-normal leading-normal pb-3 pt-1 px-4">Phone: (555) 123-4567</p>
-            <p className="text-[#111618] text-base font-normal leading-normal pb-3 pt-1 px-4">Email: info@liftsolutions.com</p>
-            <p className="text-[#111618] text-base font-normal leading-normal pb-3 pt-1 px-4">Address: 123 Main Street, Anytown, USA</p>
-            <div className="flex px-4 py-3">
-              <div
-                className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg object-cover"
-                style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCIoQ5-IFElmquXJeTcB1wHMnNLQ5jOV00NgPVqoxmMlHodAp7NvffsnYnLYJ4CG-jLge3DmItb37zAvhTLAj-GOAS6gY_w8H6d8bCWhQP0P9nkxYd89RXX3QTce7feFP8uD6k-uMQ5ZiQnLK45nSfRmU9yTuL5VXcS_5ckbzLCDZGoZ4EW08ppg8qERTEVWFAUU--dzennQ1vV81OhEIdFb6_b18vUDdoYqM61WzUSTiZb2DAk_V60HxPdnkNESl7q-SeeUYSckq9H")' }}
-              ></div>
-            </div>
+
+    <div className="px-40 flex flex-1 justify-center py-5">
+      <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
+        <div className="flex flex-wrap justify-between gap-3 p-4">
+          <div className="flex min-w-72 flex-col gap-3">
+            <p className="text-[#111618] tracking-light text-[32px] font-bold leading-tight">Contact Us</p>
+            <p className="text-[#617c89] text-sm font-normal leading-normal">We're here to help. Reach out to us with any questions or inquiries.</p>
           </div>
         </div>
-        <footer className="flex justify-center">
-          <div className="flex max-w-[960px] flex-1 flex-col">
-            <footer className="flex flex-col gap-6 px-5 py-10 text-center @container">
-              <div className="flex flex-wrap items-center justify-center gap-6 @[480px]:flex-row @[480px]:justify-around">
-                <a className="text-[#617c89] text-base font-normal leading-normal min-w-40" href="#">Privacy Policy</a>
-                <a className="text-[#617c89] text-base font-normal leading-normal min-w-40" href="#">Terms of Service</a>
-              </div>
-              <p className="text-[#617c89] text-base font-normal leading-normal">© 2023 Lift Solutions. All rights reserved.</p>
-            </footer>
-          </div>
-        </footer>
+        <div className="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+          <label className="flex flex-col min-w-40 flex-1">
+            <p className="text-[#111618] text-base font-medium leading-normal pb-2">Name</p>
+            <input
+              placeholder="Enter your name"
+              className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111618] focus:outline-0 focus:ring-0 border border-[#dbe2e6] bg-white focus:border-[#dbe2e6] h-14 placeholder:text-[#617c89] p-[15px] text-base font-normal leading-normal"
+              value=""
+            />
+          </label>
+        </div>
+        <div className="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+          <label className="flex flex-col min-w-40 flex-1">
+            <p className="text-[#111618] text-base font-medium leading-normal pb-2">Email</p>
+            <input
+              placeholder="Enter your email"
+              className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111618] focus:outline-0 focus:ring-0 border border-[#dbe2e6] bg-white focus:border-[#dbe2e6] h-14 placeholder:text-[#617c89] p-[15px] text-base font-normal leading-normal"
+              value=""
+            />
+          </label>
+        </div>
+        <div className="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+          <label className="flex flex-col min-w-40 flex-1">
+            <p className="text-[#111618] text-base font-medium leading-normal pb-2">Phone Number</p>
+            <input
+              placeholder="Enter your phone number"
+              className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111618] focus:outline-0 focus:ring-0 border border-[#dbe2e6] bg-white focus:border-[#dbe2e6] h-14 placeholder:text-[#617c89] p-[15px] text-base font-normal leading-normal"
+              value=""
+            />
+          </label>
+        </div>
+        <div className="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+          <label className="flex flex-col min-w-40 flex-1">
+            <p className="text-[#111618] text-base font-medium leading-normal pb-2">Subject</p>
+            <input
+              placeholder="Enter the subject"
+              className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111618] focus:outline-0 focus:ring-0 border border-[#dbe2e6] bg-white focus:border-[#dbe2e6] h-14 placeholder:text-[#617c89] p-[15px] text-base font-normal leading-normal"
+              value=""
+            />
+          </label>
+        </div>
+        <div className="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+          <label className="flex flex-col min-w-40 flex-1">
+            <p className="text-[#111618] text-base font-medium leading-normal pb-2">Message</p>
+            <textarea
+              placeholder="Enter your message"
+              className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111618] focus:outline-0 focus:ring-0 border border-[#dbe2e6] bg-white focus:border-[#dbe2e6] min-h-36 placeholder:text-[#617c89] p-[15px] text-base font-normal leading-normal"
+            ></textarea>
+          </label>
+        </div>
+        <div className="flex px-4 py-3 justify-start">
+          <button
+            className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#13a4ec] text-white text-sm font-bold leading-normal tracking-[0.015em]"
+          >
+            <span className="truncate">Submit</span>
+          </button>
+        </div>
+        <h3 className="text-[#111618] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Our Contact Information</h3>
+        <p className="text-[#111618] text-base font-normal leading-normal pb-3 pt-1 px-4">Phone: (555) 123-4567</p>
+        <p className="text-[#111618] text-base font-normal leading-normal pb-3 pt-1 px-4">Email: info@liftsolutions.com</p>
+        <p className="text-[#111618] text-base font-normal leading-normal pb-3 pt-1 px-4">Address: 123 Main Street, Anytown, USA</p>
+        <div className="flex px-4 py-3">
+          <div
+            className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg object-cover"
+            style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCIoQ5-IFElmquXJeTcB1wHMnNLQ5jOV00NgPVqoxmMlHodAp7NvffsnYnLYJ4CG-jLge3DmItb37zAvhTLAj-GOAS6gY_w8H6d8bCWhQP0P9nkxYd89RXX3QTce7feFP8uD6k-uMQ5ZiQnLK45nSfRmU9yTuL5VXcS_5ckbzLCDZGoZ4EW08ppg8qERTEVWFAUU--dzennQ1vV81OhEIdFb6_b18vUDdoYqM61WzUSTiZb2DAk_V60HxPdnkNESl7q-SeeUYSckq9H")' }}
+          ></div>
+        </div>
       </div>
     </div>
   )
