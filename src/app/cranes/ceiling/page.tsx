@@ -89,6 +89,7 @@ export default function CeilingCranePage() {
         <h2 className="text-[#111618] text-[20px] sm:text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
           מפרט טכני
         </h2>
+        {/* TODO: use icons like pneumatic page */}
         <div className="p-4 grid grid-cols-1 sm:grid-cols-2">
           <div className="flex flex-col gap-1 border-t border-solid border-t-[#dbe2e6] py-4 pr-0 sm:pr-2">
             <p className="text-[#617c89] text-sm font-normal leading-normal">קיבולת הרמה</p>

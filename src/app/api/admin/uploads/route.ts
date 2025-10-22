@@ -1,30 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import path from 'path';
-import { mkdir, readdir, unlink, writeFile } from 'fs/promises';
+import {  readdir, unlink } from 'fs/promises';
 import { verifyAdminToken } from '@/lib/auth';
-import { existsSync } from 'fs';
+import { pool } from '@/lib/db';
+import { isAllowedFileType, uploadFile, isVideo, isImage, uploadsDir } from '@/lib/uploadImages';
 
 
-const uploadsDir = path.join(process.cwd(), 'public');
-const imageExtensions = ['.png', '.jpg', '.jpeg', '.webp', '.gif', '.svg', '.ico'];
-const videoExtensions = ['.mp4', '.mov', '.webm', '.mkv'];
 
-function isImage(name: string) {
-    const ext = path.extname(name).toLowerCase();
-    return imageExtensions.includes(ext);
-}
 
-function isVideo(name: string) {
-    const ext = path.extname(name).toLowerCase();
-    return videoExtensions.includes(ext);
-}
 
 export async function GET(request: NextRequest) {
     const admin = verifyAdminToken(request);
     if (!admin) return NextResponse.json({ success: false, error: 'לא מחובר כאדמין' }, { status: 401 });
 
     try {
-        await mkdir(uploadsDir, { recursive: true });
         const entries = await readdir(uploadsDir, { withFileTypes: true });
         const images = entries
             .filter((e) => e.isFile() && isImage(e.name))
@@ -60,36 +49,21 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Check file type
-        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'video/mp4', 'video/mov', 'video/webm', 'video/mkv', 'video/quicktime'];
-        if (!allowedTypes.includes(file.type)) {
-            console.error('file.type', file.type);
+        
+        if (!isAllowedFileType(file.name)) {
             return NextResponse.json(
-                { success: false, error: 'רק קבצי תמונה וידאו מותרים (JPEG, PNG, GIF, WebP, MP4, MOV, WEBM, MKV)' },
+                { success: false, error: 'סוג הקובץ לא נתמך' },
                 { status: 400 }
             );
         }
 
-        if (!existsSync(uploadsDir)) {
-            await mkdir(uploadsDir, { recursive: true });
-        }
-
-        // Generate unique filename
-        const timestamp = Date.now();
-        const extension = path.extname(file.name);
-        const filename = `${timestamp}${extension}`;
-        const filepath = path.join(uploadsDir, filename);
-
-        // Convert file to buffer and save
-        const bytes = await file.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-        await writeFile(filepath, buffer);
+        const filename = await uploadFile(file);
 
         return NextResponse.json({
             success: true,
             filename,
             originalName: file.name,
-            message: 'התמונה הועלתה בהצלחה'
+            message: 'הקובץ הועלה בהצלחה'
         });
 
     } catch (error) {
@@ -114,15 +88,18 @@ export async function DELETE(request: NextRequest) {
 
         const deleted: string[] = [];
         for (const name of filenames) {
-            // Prevent path traversal
-            const safe = path.basename(name);
-            const target = path.join(uploadsDir, safe);
-            try {
-                await unlink(target);
-                deleted.push(safe);
-            } catch {
-                //TODO: ignore missing
-            }
+          const safe = path.basename(name);
+          const target = path.join(uploadsDir, safe);
+          try {
+            await unlink(target);
+            await pool.query(
+              'UPDATE reviews SET image_filename = NULL WHERE image_filename = $1',
+              [safe],
+            );
+            deleted.push(safe);
+          } catch {
+            //TODO: ignore missing
+          }
         }
         return NextResponse.json({ success: true, deleted });
     } catch (e) {

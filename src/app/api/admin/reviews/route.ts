@@ -1,14 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Pool } from 'pg';
 import { verifyAdminToken } from '@/lib/auth';
-import path from 'path';
-import fs from 'fs';
-import { uploadImage } from '@/lib/uploadImages';
+import { isAllowedFileType, uploadFile } from '@/lib/uploadImages';
+import { pool } from '@/lib/db';
 
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
 
 export async function POST(request: NextRequest) {
   // Verify admin authentication
@@ -24,7 +18,7 @@ export async function POST(request: NextRequest) {
   let rating: number | null = null;
   let content: string | null = null;
   let imageFilename: string | null = null;
-
+  let file: File | null = null;
   try {
     const form = await request.formData();
 
@@ -33,12 +27,8 @@ export async function POST(request: NextRequest) {
       name = (form.get('name') as string) || null;
       rating = form.get('rating') != null ? Number(form.get('rating')) : null;
       content = (form.get('content') as string) || null;
-      const file = form.get('image') as File | null;
+      file = form.get('image') as File;
 
-      if (file) {
-        imageFilename = await uploadImage(file);
-      }
-      
     } else {
       const body = await request.json().catch(() => ({} as any));
       name = body?.name ?? null;
@@ -63,6 +53,15 @@ export async function POST(request: NextRequest) {
     if (content.length < 10) {
       return NextResponse.json(
         { success: false, error: 'תוכן הביקורת חייב להיות לפחות 10 תווים' },
+        { status: 400 }
+      );
+    }
+
+    if (file && isAllowedFileType(file.name)) {
+      imageFilename = await uploadFile(file);
+    }else if (file) {
+      return NextResponse.json(
+        { success: false, error: 'סוג הקובץ לא נתמך' },
         { status: 400 }
       );
     }

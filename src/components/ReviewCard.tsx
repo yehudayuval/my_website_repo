@@ -48,7 +48,7 @@ const ReviewCard = ({ rating, content, imageFilename, createdAt }: ReviewCardPro
         <div className="mb-4 flex justify-center">
           <div className="relative w-full max-w-md h-48">
             <Image
-              src={`/uploads/${imageFilename}`}
+              src={`/${imageFilename}`}
               alt="תמונת ביקורת"
               fill
               className="rounded-lg object-cover"

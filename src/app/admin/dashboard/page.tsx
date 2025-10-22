@@ -14,6 +14,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState<AdminTabKey>('reviews');
+  // TODO: Need to do it works with images component too
   const [flagForReloadReviews, setFlagForReloadReviews] = useState<boolean>(false);
 
   const router = useRouter();
