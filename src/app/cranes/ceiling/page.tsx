@@ -1,8 +1,9 @@
 'use client';
 
-import { VideoPlayer } from '@/components/VideoPlayer';
-import { motion } from 'motion/react';
+import { Fragment, useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'motion/react';
 import {
   PiCaretDownBold,
   PiPhone,
@@ -12,253 +13,276 @@ import {
   PiShieldCheck,
   PiSpeakerHigh,
 } from 'react-icons/pi';
+import { MediaPlayer, MediaProvider, Poster } from '@vidstack/react';
+import { DefaultVideoLayout, defaultLayoutIcons } from '@vidstack/react/player/layouts/default';
+import '@vidstack/react/player/styles/default/theme.css';
+import '@vidstack/react/player/styles/default/layouts/video.css';
+
+type GalleryImageName = 'primary' | 'side' | 'cabin';
+
+type GalleryImage = {
+  name: GalleryImageName;
+  classes: string;
+  src: string;
+  alt: string;
+};
+
+const specifications: Record<string, string> = {
+  'קיבולת הרמה': '1-50 טון',
+  'גובה הרמה': 'עד 30 מטר',
+  'רוחב המנוף': '5-35 מטר',
+  'מהירות הרמה': '0.8-8 מ/דקה',
+  'מהירות נסיעה': '2-20 מ/דקה',
+  'מקור חשמל': '380V/50Hz',
+  'דירוג הגנה': 'IP54',
+  'תקן בטיחות': 'ISO 9001:2015',
+};
+
+const benefits = [
+  {
+    icon: PiShieldCheck,
+    title: 'משפר עצמאות וניידות בבית',
+    description: 'מאפשר תנועה עצמאית ובטוחה בין קומות ללא מאמץ פיזי.',
+  },
+  {
+    icon: PiShieldCheck,
+    title: 'מפחית סיכון לנפילות ופגיעות',
+    description: 'מערכת בטיחות מתקדמת למניעת תאונות ומתן שקט נפשי.',
+  },
+  {
+    icon: PiRuler,
+    title: 'התאמה אישית למידות החדר',
+    description: 'ניתן להתאמה לגובה תקרה וגודל חדר שונים ללא צורך בשינויים מבניים.',
+  },
+  {
+    icon: PiSpeakerHigh,
+    title: 'פעולה שקטה וחלקה',
+    description: 'מנוע שקט ותנועה חלקה ללא רעש או זעזועים.',
+  },
+  {
+    icon: PiWrench,
+    title: 'התקנה מקצועית והדרכה',
+    description: 'התקנה על ידי צוות מקצועי כולל הדרכה מלאה על השימוש.',
+  },
+];
+
+const purchaseSteps = [
+  {
+    icon: PiPhone,
+    title: 'צרו קשר',
+    description: 'דברו איתנו לתיאום והתאמת פתרון מדויק לצרכים שלכם.',
+    showTopLine: false,
+    showBottomLine: true,
+    bottomLineGrow: true,
+    wrapperClassName: 'pt-3',
+  },
+  {
+    icon: PiRuler,
+    title: 'התאמה אישית',
+    description: 'הצוות שלנו יבחן את המקום ויגבש תוכנית התאמה אישית.',
+    showTopLine: true,
+    showBottomLine: true,
+    bottomLineGrow: true,
+  },
+  {
+    icon: PiWrench,
+    title: 'התקנה',
+    description: 'התקנה מקצועית ע״י צוות טכנאים מוסמך.',
+    showTopLine: true,
+    showBottomLine: true,
+    bottomLineGrow: true,
+  },
+  {
+    icon: PiGraduationCap,
+    title: 'הדרכה',
+    description: 'הדרכה מלאה על תפעול ובטיחות המערכת.',
+    showTopLine: true,
+    showBottomLine: false,
+    bottomLineGrow: false,
+    wrapperClassName: 'pb-3',
+  },
+];
+
+const faqs = [
+  {
+    question: 'כמה עולה המנוף?',
+    answer:
+    'המחיר משתנה לפי התאמות אישיות ומורכבות ההתקנה. צרו קשר לקבלת הצעת מחיר מותאמת.',
+  },
+  {
+    question: 'האם קיימות אפשרויות מימון?',
+    answer: 'כן. נוכל להציע פתרונות מימון בהתאם לצורך ולתנאים המותאמים לכל לקוח.',
+  },
+  {
+    question: 'כמה זמן לוקחת ההתקנה?',
+    answer: 'לרוב מספר ימים עד שבועות, בהתאם להכנות ולמאפייני המבנה.',
+  },
+  {
+    question: 'מה האחריות?',
+    answer: 'אחריות יצרן מקיפה בהתאם לדגם ולהתקנה. נשמח לפרט בפגישה.',
+  },
+  {
+    question: 'איזו תחזוקה נדרשת?',
+    answer: 'תחזוקה בסיסית ובדיקות תקופתיות לשמירה על בטיחות וביצועים מיטביים.',
+  },
+];
+
+const galleryImages: GalleryImage[] = [
+  {
+    name: 'primary',
+    classes: 'relative h-56 sm:h-auto sm:col-span-2 sm:row-span-2',
+    src: '/ceiling-1.png',
+    alt: 'מנוף תקרה - מבט קדמי',
+  },
+  {
+    name: 'side',
+    classes: 'relative h-40 sm:h-auto sm:col-span-1',
+    src: '/ceiling-2.png',
+    alt: 'מנוף תקרה - מבט צד',
+  },
+  {
+    name: 'cabin',
+    classes: 'relative h-40 sm:h-auto sm:col-span-1',
+    src: '/ceiling-3.png',
+    alt: 'מנוף תקרה - מנגנון פעולה',
+  },
+];
+
+const specificationEntries = Object.entries(specifications);
 
 export default function CeilingCranePage() {
-  const specifications = {
-    'קיבולת הרמה': '1-50 טון',
-    'גובה הרמה': 'עד 30 מטר',
-    'רוחב המנוף': '5-35 מטר',
-    'מהירות הרמה': '0.8-8 מ/דקה',
-    'מהירות נסיעה': '2-20 מ/דקה',
-    'מקור חשמל': '380V/50Hz',
-    'דירוג הגנה': 'IP54',
-    'תקן בטיחות': 'ISO 9001:2015',
-  };
-
-  const features = [
-    'מערכת בקרה מתקדמת עם פאנל דיגיטלי',
-    'מנגנון בלימה כפול לבטיחות מירבית',
-    'חיישני עומס ומיקום מדויקים',
-    'מערכת התרעה קולית וויזואלית',
-    'עמידות בתנאי מזג אוויר קיצוניים',
-    'תחזוקה נוחה עם גישה קלה לרכיבים',
-    'ציוד בטיחות מתקדם לעובדים',
-    'אפשרות לשליטה מרחוק',
-  ];
-
-  // TODO: replace images
+  const [imageLoaded, setImageLoaded] = useState<Record<GalleryImageName, boolean>>({
+    primary: false,
+    side: false,
+    cabin: false,
+  });
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
   return (
     <div className="px-4 sm:px-6 lg:px-10 flex flex-1 justify-center py-5">
-      <div className="flex flex-col w-full max-w-[960px]">
+      <div className="layout-content-container flex flex-col w-full max-w-[960px]">
         <div className="flex flex-wrap justify-between gap-3 p-4">
           <div className="flex min-w-72 flex-col gap-3">
-            <p className="text-[#111618] tracking-light text-[28px] sm:text-[32px] font-bold leading-tight">מנוף תקרה</p>
+            <p className="text-[#111618] tracking-light text-[28px] sm:text-[32px] font-bold leading-tight">
+              מנוף תקרה
+            </p>
             <p className="text-[#617c89] text-sm font-normal leading-normal">
               מנוף תקרה קבוע המיועד לחללים קטנים ולהרמות תכופות, ומספק עבודה חלקה ובטוחה בסביבת הבית או העסק.
             </p>
           </div>
         </div>
 
-        <div className="p-4">
-          <div className="w-full grid gap-2 sm:gap-2 sm:grid-cols-3 sm:aspect-[3/2] rounded-lg overflow-hidden">
-            <div
-              className="bg-center bg-no-repeat bg-cover rounded-none h-56 sm:h-auto sm:col-span-2 sm:row-span-2"
-              style={{
-                backgroundImage: `url(${"/ceiling-1.png"})`,
-              }}
-            ></div>
-            <div
-              className="bg-center bg-no-repeat bg-cover rounded-none h-40 sm:h-auto sm:col-span-1"
-              style={{
-                backgroundImage: `url(${"/ceiling-2.png"})`,
-              }}
-            ></div>
-            <div
-              className="bg-center bg-no-repeat bg-cover rounded-none h-40 sm:h-auto sm:col-span-1"
-              style={{
-                backgroundImage: `url(${"/ceiling-3.png"})`,
-              }}
-            ></div>
+        <section className="flex w-full grow bg-white p-4" about="gallery-section">
+          <div className="w-full grid grid-cols-1 gap-2 sm:grid-cols-3 sm:aspect-[3/2] rounded-lg overflow-hidden">
+            {galleryImages.map(({ name, classes, src, alt }) => (
+              <div key={name} className={classes}>
+                {!imageLoaded[name] && (
+                  <div className="animate-pulse absolute inset-0 rounded-[inherit] bg-[#d6dde1]" />
+                )}
+                <Image
+                  src={src}
+                  alt={alt}
+                  // TODO: read about fill
+                  fill
+                  priority={name === 'primary'}
+                  onLoad={(event) => {
+                    setImageLoaded((prev) => ({ ...prev, [name]: true }));
+                    event.currentTarget.classList.add('opacity-100');
+                  }}
+                  className="transition-opacity duration-700 opacity-0 object-cover"
+                />
+              </div>
+            ))}
           </div>
-        </div>
+        </section>
 
-        <div className="p-4">
-          <VideoPlayer src="/1761047054525.mov" poster="/poster-ceiling.png" />
-        </div>
+        <section className="p-4" about="video-section">
+          <div className="relative w-full overflow-hidden rounded-lg aspect-[16/9]">
+            {!false && (
+              <div className="absolute inset-0 bg-[#d6dde1] animate-pulse" />
+            )}
+            <MediaPlayer
+              src="/1761047054525.mov"
+              className="h-full w-full rounded-lg"
+              playsInline
+              preload="metadata"
+              dir="ltr"
+              load="visible"
+              posterLoad="visible"
+              onLoadedMetadata={() => setVideoLoaded(true)}
+            >
+              <Poster src="/poster-ceiling.png" className="vds-poster" />
+              <DefaultVideoLayout thumbnails="https://files.vidstack.io/sprite-fight/thumbnails.vtt" icons={defaultLayoutIcons} />
+              <MediaProvider />
+            </MediaPlayer>
+          </div>
+        </section>
 
         <h2 className="text-[#111618] text-[20px] sm:text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
           מפרט טכני
         </h2>
-        {/* TODO: use icons like pneumatic page */}
-        <div className="p-4 grid grid-cols-1 sm:grid-cols-2">
-          <div className="flex flex-col gap-1 border-t border-solid border-t-[#dbe2e6] py-4 pr-0 sm:pr-2">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
+        <section className="p-4 grid grid-cols-1 sm:grid-cols-2" about="specifications-section">
+          {specificationEntries.map(([label, value], index) => (
+            <div
+              key={label}
+              className={`flex flex-col gap-1 border-t border-solid border-t-[#dbe2e6] py-4 ${
+                index % 2 === 0 ? 'sm:pr-2' : 'sm:pl-2'
+              }`}
             >
-              <p className="text-[#617c89] text-sm font-normal leading-normal">קיבולת הרמה</p>
-              <p className="text-[#111618] text-sm font-normal leading-normal">150 ק״ג</p>
-            </motion.div>
-          </div>
-          <div className="flex flex-col gap-1 border-t border-solid border-t-[#dbe2e6] py-4 pl-0 sm:pl-2">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <p className="text-[#617c89] text-sm font-normal leading-normal">מידות</p>
-              <p className="text-[#111618] text-sm font-normal leading-normal">מותאם אישית לגובה התקרה וגודל החדר</p>
-            </motion.div>
-          </div>
-          <div className="flex flex-col gap-1 border-t border-solid border-t-[#dbe2e6] py-4 pl-0 sm:pl-2">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <p className="text-[#617c89] text-sm font-normal leading-normal">סוג הפעלה</p>
-              <p className="text-[#111618] text-sm font-normal leading-normal">חשמלית עם שלט רחוק</p>
-            </motion.div>
-          </div>
-          <div className="flex flex-col gap-1 border-t border-solid border-t-[#dbe2e6] py-4 pl-0 sm:pl-2">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <p className="text-[#617c89] text-sm font-normal leading-normal">חומרים</p>
-              <p className="text-[#111618] text-sm font-normal leading-normal">אלומיניום ופלדה</p>
-            </motion.div>
-          </div>
-          <div className="flex flex-col gap-1 border-t border-solid border-t-[#dbe2e6] py-4 pl-0 sm:pl-2">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <p className="text-[#617c89] text-sm font-normal leading-normal">בקרה</p>
-              <p className="text-[#111618] text-sm font-normal leading-normal">שלט רחוק אלחוטי</p>
-            </motion.div>
-          </div>
-          <div className="flex flex-col gap-1 border-t border-solid border-t-[#dbe2e6] py-4 pl-0 sm:pl-2">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <p className="text-[#617c89] text-sm font-normal leading-normal">מאפייני בטיחות</p>
-              <p className="text-[#111618] text-sm font-normal leading-normal">כפתור עצירת חירום, הגנת עומס יתר</p>
-            </motion.div>
-          </div>
-        </div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.15 + index * 0.05 }}
+                viewport={{ once: true }}
+              >
+                <p className="text-[#617c89] text-sm font-normal leading-normal">{label}</p>
+                <p className="text-[#111618] text-sm font-normal leading-normal">{value}</p>
+              </motion.div>
+            </div>
+          ))}
+        </section>
 
         <h2 className="text-[#111618] text-[20px] sm:text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
           יתרונות מרכזיים
         </h2>
-        <div className="flex items-center gap-4 bg-white px-4 min-h-[72px] py-2">
-          <div className="text-[#13a4ec] flex items-center justify-center rounded-lg bg-[#f0f3f4] shrink-0 size-12">
-            <PiShieldCheck size={24} />
-          </div>
-          <div className="flex flex-col justify-center">
-            <p className="text-[#111618] text-base font-medium leading-normal line-clamp-1">משפר עצמאות וניידות בבית</p>
-            <p className="text-[#617c89] text-sm font-normal leading-normal line-clamp-2">
-              מאפשר תנועה עצמאית ובטוחה בין קומות ללא מאמץ פיזי.
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-4 bg-white px-4 min-h-[72px] py-2">
-          <div className="text-[#13a4ec] flex items-center justify-center rounded-lg bg-[#f0f3f4] shrink-0 size-12">
-            <PiShieldCheck size={24} />
-          </div>
-          <div className="flex flex-col justify-center">
-            <p className="text-[#111618] text-base font-medium leading-normal line-clamp-1">מפחית סיכון לנפילות ופגיעות</p>
-            <p className="text-[#617c89] text-sm font-normal leading-normal line-clamp-2">
-              מערכת בטיחות מתקדמת למניעת תאונות ומתן שקט נפשי.
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-4 bg-white px-4 min-h-[72px] py-2">
-          <div className="text-[#13a4ec] flex items-center justify-center rounded-lg bg-[#f0f3f4] shrink-0 size-12">
-            <PiRuler size={24} />
-          </div>
-          <div className="flex flex-col justify-center">
-            <p className="text-[#111618] text-base font-medium leading-normal line-clamp-1">התאמה אישית למידות החדר</p>
-            <p className="text-[#617c89] text-sm font-normal leading-normal line-clamp-2">
-              ניתן להתאמה לגובה תקרה וגודל חדר שונים ללא צורך בשינויים מבניים.
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-4 bg-white px-4 min-h-[72px] py-2">
-          <div className="text-[#13a4ec] flex items-center justify-center rounded-lg bg-[#f0f3f4] shrink-0 size-12">
-            <PiSpeakerHigh size={24} />
-          </div>
-          <div className="flex flex-col justify-center">
-            <p className="text-[#111618] text-base font-medium leading-normal line-clamp-1">פעולה שקטה וחלקה</p>
-            <p className="text-[#617c89] text-sm font-normal leading-normal line-clamp-2">
-              מנוע שקט ותנועה חלקה ללא רעש או זעזועים.
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-4 bg-white px-4 min-h-[72px] py-2">
-          <div className="text-[#13a4ec] flex items-center justify-center rounded-lg bg-[#f0f3f4] shrink-0 size-12">
-            <PiWrench size={24} />
-          </div>
-          <div className="flex flex-col justify-center">
-            <p className="text-[#111618] text-base font-medium leading-normal line-clamp-1">התקנה מקצועית והדרכה</p>
-            <p className="text-[#617c89] text-sm font-normal leading-normal line-clamp-2">
-              התקנה על ידי צוות מקצועי כולל הדרכה מלאה על השימוש.
-            </p>
-          </div>
-        </div>
+        <section className="flex flex-col" about="benefits-section">
+          {benefits.map(({ icon: Icon, title, description }) => (
+            <div key={title} className="flex items-center gap-4 bg-white px-4 min-h-[72px] py-2">
+              <div className="text-[#13a4ec] flex items-center justify-center rounded-lg bg-[#f0f3f4] shrink-0 size-12">
+                <Icon size={24} />
+              </div>
+              <div className="flex flex-col justify-center">
+                <p className="text-[#111618] text-base font-medium leading-normal line-clamp-1">{title}</p>
+                <p className="text-[#617c89] text-sm font-normal leading-normal line-clamp-2">{description}</p>
+              </div>
+            </div>
+          ))}
+        </section>
 
         <h2 className="text-[#111618] text-[20px] sm:text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
           תהליך רכישה וייעוץ
         </h2>
-        <div className="grid grid-cols-[40px_1fr] gap-x-2 px-4">
-          <div className="flex flex-col items-center gap-1 pt-3">
-            <div className="text-[#13a4ec]">
-              <PiPhone size={24} />
-            </div>
-            <div className="w-[1.5px] bg-[#dbe2e6] h-2 grow"></div>
-          </div>
-          <div className="flex flex-1 flex-col py-3">
-            <p className="text-[#111618] text-base font-medium leading-normal">צרו קשר</p>
-            <p className="text-[#617c89] text-base font-normal leading-normal">דברו איתנו לתיאום והתאמת פתרון מדויק לצרכים שלכם.</p>
-          </div>
-
-          <div className="flex flex-col items-center gap-1">
-            <div className="w-[1.5px] bg-[#dbe2e6] h-2"></div>
-            <div className="text-[#13a4ec]">
-              <PiRuler size={24} />
-            </div>
-            <div className="w-[1.5px] bg-[#dbe2e6] h-2 grow"></div>
-          </div>
-          <div className="flex flex-1 flex-col py-3">
-            <p className="text-[#111618] text-base font-medium leading-normal">התאמה אישית</p>
-            <p className="text-[#617c89] text-base font-normal leading-normal">הצוות שלנו יבחן את המקום ויגבש תוכנית התאמה אישית.</p>
-          </div>
-
-          <div className="flex flex-col items-center gap-1">
-            <div className="w-[1.5px] bg-[#dbe2e6] h-2"></div>
-            <div className="text-[#13a4ec]">
-              <PiWrench size={24} />
-            </div>
-            <div className="w-[1.5px] bg-[#dbe2e6] h-2 grow"></div>
-          </div>
-          <div className="flex flex-1 flex-col py-3">
-            <p className="text-[#111618] text-base font-medium leading-normal">התקנה</p>
-            <p className="text-[#617c89] text-base font-normal leading-normal">התקנה מקצועית ע״י צוות טכנאים מוסמך.</p>
-          </div>
-
-          <div className="flex flex-col items-center gap-1 pb-3">
-            <div className="w-[1.5px] bg-[#dbe2e6] h-2"></div>
-            <div className="text-[#13a4ec]">
-              <PiGraduationCap size={24} />
-            </div>
-          </div>
-          <div className="flex flex-1 flex-col py-3">
-            <p className="text-[#111618] text-base font-medium leading-normal">הדרכה</p>
-            <p className="text-[#617c89] text-base font-normal leading-normal">הדרכה מלאה על תפעול ובטיחות המערכת.</p>
-          </div>
-        </div>
+        <section className="grid grid-cols-[40px_1fr] gap-x-2 px-4" about="purchase-steps-section">
+          {purchaseSteps.map(
+            ({ icon: Icon, title, description, showTopLine, showBottomLine, bottomLineGrow, wrapperClassName }) => (
+              <Fragment key={title}>
+                <div className={`flex flex-col items-center gap-1 ${wrapperClassName ?? ''}`}>
+                  {showTopLine && <div className="w-[1.5px] h-2 bg-[#dbe2e6]" />}
+                  <div className="text-[#13a4ec]">
+                    <Icon size={24} />
+                  </div>
+                  {showBottomLine && (
+                    <div className={`w-[1.5px] bg-[#dbe2e6] ${bottomLineGrow ? 'h-2 grow' : 'h-2'}`} />
+                  )}
+                </div>
+                <div className="flex flex-1 flex-col py-3">
+                  <p className="text-[#111618] text-base font-medium leading-normal">{title}</p>
+                  <p className="text-[#617c89] text-base font-normal leading-normal">{description}</p>
+                </div>
+              </Fragment>
+            ),
+          )}
+        </section>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -278,67 +302,22 @@ export default function CeilingCranePage() {
         <h2 className="text-[#111618] text-[20px] sm:text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
           שאלות נפוצות
         </h2>
-        <div className="flex flex-col p-4 gap-3">
-          <details className="flex flex-col rounded-lg border border-[#dbe2e6] bg-white px-[15px] py-[7px] group">
-            <summary className="flex cursor-pointer items-center justify-between gap-6 py-2">
-              <p className="text-[#111618] text-sm font-medium leading-normal">כמה עולה המנוף?</p>
-              <div className="text-[#111618] group-open:rotate-180" data-size="20px">
-                <PiCaretDownBold size={20} />
-              </div>
-            </summary>
-            <p className="text-[#617c89] text-sm font-normal leading-normal pb-2">
-              המחיר משתנה לפי התאמות אישיות ומורכבות ההתקנה. צרו קשר לקבלת הצעת מחיר מותאמת.
-            </p>
-          </details>
-
-          <details className="flex flex-col rounded-lg border border-[#dbe2e6] bg-white px-[15px] py-[7px] group">
-            <summary className="flex cursor-pointer items-center justify-between gap-6 py-2">
-              <p className="text-[#111618] text-sm font-medium leading-normal">האם קיימות אפשרויות מימון?</p>
-              <div className="text-[#111618] group-open:rotate-180" data-size="20px">
-                <PiCaretDownBold size={20} />
-              </div>
-            </summary>
-            <p className="text-[#617c89] text-sm font-normal leading-normal pb-2">
-              כן. נוכל להציע פתרונות מימון בהתאם לצורך ולתנאים המותאמים לכל לקוח.
-            </p>
-          </details>
-
-          <details className="flex flex-col rounded-lg border border-[#dbe2e6] bg-white px-[15px] py-[7px] group">
-            <summary className="flex cursor-pointer items-center justify-between gap-6 py-2">
-              <p className="text-[#111618] text-sm font-medium leading-normal">כמה זמן לוקחת ההתקנה?</p>
-              <div className="text-[#111618] group-open:rotate-180" data-size="20px">
-                <PiCaretDownBold size={20} />
-              </div>
-            </summary>
-            <p className="text-[#617c89] text-sm font-normal leading-normal pb-2">
-              לרוב מספר ימים עד שבועות, בהתאם להכנות ולמאפייני המבנה.
-            </p>
-          </details>
-
-          <details className="flex flex-col rounded-lg border border-[#dbe2e6] bg-white px-[15px] py-[7px] group">
-            <summary className="flex cursor-pointer items-center justify-between gap-6 py-2">
-              <p className="text-[#111618] text-sm font-medium leading-normal">מה האחריות?</p>
-              <div className="text-[#111618] group-open:rotate-180" data-size="20px">
-                <PiCaretDownBold size={20} />
-              </div>
-            </summary>
-            <p className="text-[#617c89] text-sm font-normal leading-normal pb-2">
-              אחריות יצרן מקיפה בהתאם לדגם ולהתקנה. נשמח לפרט בפגישה.
-            </p>
-          </details>
-
-          <details className="flex flex-col rounded-lg border border-[#dbe2e6] bg-white px-[15px] py-[7px] group">
-            <summary className="flex cursor-pointer items-center justify-between gap-6 py-2">
-              <p className="text-[#111618] text-sm font-medium leading-normal">איזו תחזוקה נדרשת?</p>
-              <div className="text-[#111618] group-open:rotate-180" data-size="20px">
-                <PiCaretDownBold size={20} />
-              </div>
-            </summary>
-            <p className="text-[#617c89] text-sm font-normal leading-normal pb-2">
-              תחזוקה בסיסית ובדיקות תקופתיות לשמירה על בטיחות וביצועים מיטביים.
-            </p>
-          </details>
-        </div>
+        <section className="flex flex-col p-4 gap-3" about="faqs-section">
+          {faqs.map(({ question, answer }) => (
+            <details
+              key={question}
+              className="details flex flex-col rounded-lg border border-[#dbe2e6] bg-white px-[15px] py-[7px] group"
+            >
+              <summary className="flex cursor-pointer items-center justify-between gap-6 py-2">
+                <p className="text-[#111618] text-sm font-medium leading-normal">{question}</p>
+                <div className="text-[#111618] group-open:rotate-180" data-size="20px">
+                  <PiCaretDownBold size={20} />
+                </div>
+              </summary>
+              <p className="text-[#617c89] text-sm font-normal leading-normal pb-2">{answer}</p>
+            </details>
+          ))}
+        </section>
       </div>
     </div>
   );

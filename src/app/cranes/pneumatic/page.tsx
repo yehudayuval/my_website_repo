@@ -17,7 +17,8 @@ import Image from 'next/image';
 import { Fragment, useState } from 'react';
 import { MediaPlayer, MediaProvider, Poster } from '@vidstack/react';
 import { defaultLayoutIcons, DefaultVideoLayout } from '@vidstack/react/player/layouts/default';
-
+import '@vidstack/react/player/styles/default/theme.css';
+import '@vidstack/react/player/styles/default/layouts/video.css';
 
 interface GalleryImage {
   name: 'primary' | 'side' | 'cabin';
@@ -161,6 +162,7 @@ export default function PneumaticCranePage() {
     side: false,
     cabin: false,
   });
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
 
   return (
@@ -200,20 +202,25 @@ export default function PneumaticCranePage() {
         </section>
 
         <section className="p-4" about="video-section">
-          <MediaPlayer
-            src={'/1761047054525.mov'}
-            className="absolute inset-0 w-full h-full object-cover rounded-lg"
-            playsInline
-            preload="metadata"
-            dir='ltr'
-            load="visible"
-            posterLoad="visible"
-            onLoadStart={(e) => {console.log(e)}}
-          >
-            <Poster src={'/poster-pneumatic.png'} className="vds-poster" />
-            <DefaultVideoLayout thumbnails="https://files.vidstack.io/sprite-fight/thumbnails.vtt" icons={defaultLayoutIcons} />
-            <MediaProvider />
-          </MediaPlayer>
+          <div className="relative w-full overflow-hidden rounded-lg aspect-[16/9]">
+            {!false && (
+              <div className="absolute inset-0 bg-[#d6dde1] animate-pulse" />
+            )}
+            <MediaPlayer
+              src="/1761047054525.mov"
+              className="h-full w-full rounded-lg"
+              playsInline
+              preload="metadata"
+              dir="ltr"
+              load="visible"
+              posterLoad="visible"
+              onLoadedMetadata={() => setVideoLoaded(true)}
+            >
+              <Poster src="/poster-pneumatic.png" className="vds-poster" />
+              <DefaultVideoLayout thumbnails="https://files.vidstack.io/sprite-fight/thumbnails.vtt" icons={defaultLayoutIcons} />
+              <MediaProvider />
+            </MediaPlayer>
+          </div>
         </section>
 
         <h2 className="text-[#111618] text-[20px] sm:text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">

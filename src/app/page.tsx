@@ -193,7 +193,7 @@ export default function HomePage() {
               <p className="text-[#617c89] text-sm text-center">אין המלצות להצגה כעת.</p>
             ) : (
               <div
-              // TODO: check if mobile works well
+              // TODO: todo that it will be end close to start
                 id='reviews'
                 className={`flex gap-6 reviews-marquee${isMarqueeHovered ? ' paused' : ''}`}
                 onMouseEnter={() => setIsMarqueeHovered(true)}
