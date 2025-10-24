@@ -203,7 +203,7 @@ export default function PneumaticCranePage() {
 
         <section className="p-4" about="video-section">
           <div className="relative w-full overflow-hidden rounded-lg aspect-[16/9]">
-            {!false && (
+            {!videoLoaded && (
               <div className="absolute inset-0 bg-[#d6dde1] animate-pulse" />
             )}
             <MediaPlayer
@@ -217,7 +217,8 @@ export default function PneumaticCranePage() {
               onLoadedMetadata={() => setVideoLoaded(true)}
             >
               <Poster src="/poster-pneumatic.png" className="vds-poster" />
-              <DefaultVideoLayout thumbnails="https://files.vidstack.io/sprite-fight/thumbnails.vtt" icons={defaultLayoutIcons} />
+              {/* TODO: decide if add thumbnails */}
+              <DefaultVideoLayout icons={defaultLayoutIcons} />
               <MediaProvider />
             </MediaPlayer>
           </div>
