@@ -156,6 +156,7 @@ const galleryImages: GalleryImage[] = [
 
 const specificationEntries = Object.entries(specifications);
 
+// TODO: split the sections into components and reuse its in other crane pages
 export default function PneumaticCranePage() {
   const [imageLoaded, setImageLoaded] = useState<Record<'primary' | 'side' | 'cabin', boolean>>({
     primary: false,

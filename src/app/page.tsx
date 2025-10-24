@@ -27,13 +27,39 @@ const formatReviewDate = (value?: string | null) => {
   }).format(date);
 };
 
+const solutionCards = [
+  {
+    image: '/home-2.png',
+    alt: 'מעלית אליט',
+    title: 'מעלית אליט',
+    description: 'נסיעה חלקה ושקטה עם אפשרויות התאמה אישית לעיצוב הבית שלכם.',
+  },
+  {
+    image: '/home-3.png',
+    alt: 'מעלית פנאומטית',
+    title: 'מעלית פנאומטית',
+    description: 'פתרון קומפקטי וחסכוני במקום המבוסס על לחץ אוויר — אידיאלי לחללים קטנים.',
+  },
+];
 
+const valueHighlights = [
+  { icon: PiShieldCheckFill, label: 'אמינות' },
+  { icon: PiUsersThreeFill, label: 'שירות אישי' },
+  { icon: PiClockFill, label: 'התקנה מהירה' },
+];
 
+const reviewSkeletonPlaceholders = Array.from({ length: 3 });
 
 export default function HomePage() {
   const [reviews, setReviews] = useState<Review[]>(fakeReviews);
   const [loading, setLoading] = useState(true);
   const [isMarqueeHovered, setIsMarqueeHovered] = useState(false);
+  const [solutionImageLoaded, setSolutionImageLoaded] = useState<Record<string, boolean>>(() =>
+    solutionCards.reduce<Record<string, boolean>>((acc, { title }) => {
+      acc[title] = false;
+      return acc;
+    }, {})
+  );
 
   useEffect(() => {
     fetchReviews();
@@ -89,68 +115,48 @@ export default function HomePage() {
           פתרונות המעלית שלנו
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4">
-          <div className="flex flex-col gap-3 pb-3">
-            <div className="relative w-full aspect-square rounded-lg overflow-hidden">
-              <Image
-                src="/home-2.png"
-                alt="מעלית אליט"
-                fill
-                className="object-cover"
-              />
+          {solutionCards.map(({ image, alt, title, description }, index) => (
+            <div key={title} className="flex flex-col gap-3 pb-3">
+              <div className="relative w-full aspect-square rounded-lg overflow-hidden">
+                {!solutionImageLoaded[title] && (
+                  <div className="animate-pulse absolute inset-0 rounded-[inherit] bg-[#d6dde1]" />
+                )}
+                <Image
+                  src={image}
+                  alt={alt}
+                  fill
+                  onLoad={(event) => {
+                    setSolutionImageLoaded((prev) => ({ ...prev, [title]: true }))
+                    event.currentTarget.classList.add('opacity-100');
+                  }}
+                  className="transition-opacity duration-700 opacity-0 object-cover"
+                />
+              </div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 + index * 0.05 }}
+                viewport={{ once: true, amount: 0.4 }}
+              >
+                <p className="text-[#111618] text-base font-medium leading-normal">{title}</p>
+                <p className="text-[#617c89] text-sm font-normal leading-normal">{description}</p>
+              </motion.div>
             </div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true, amount: 0.4 }}
-            >
-              <p className="text-[#111618] text-base font-medium leading-normal">מעלית אליט</p>
-              <p className="text-[#617c89] text-sm font-normal leading-normal">נסיעה חלקה ושקטה עם אפשרויות התאמה אישית לעיצוב הבית שלכם.</p>
-            </motion.div>
-          </div>
-          <div className="flex flex-col gap-3 pb-3">
-            <div className="relative w-full aspect-square rounded-lg overflow-hidden">
-              <Image
-                src="/home-3.png"
-                alt="מעלית פנאומטית"
-                fill
-                className="object-cover"
-              />
-            </div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true, amount: 0.4 }}
-            >
-              <p className="text-[#111618] text-base font-medium leading-normal">מעלית פנאומטית</p>
-              <p className="text-[#617c89] text-sm font-normal leading-normal">פתרון קומפקטי וחסכוני במקום המבוסס על לחץ אוויר — אידיאלי לחללים קטנים.</p>
-            </motion.div>
-          </div>
+          ))}
         </div>
 
         <h2 className="text-[#111618] text-xl sm:text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
           הערכים שלנו
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4">
-          <div className="flex gap-3 rounded-lg border border-[#dbe2e6] bg-white p-4 items-center">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e6f6ff] text-[#13a4ec]">
-              <PiShieldCheckFill size={24} />
+          {valueHighlights.map(({ icon: Icon, label }) => (
+            <div key={label} className="flex gap-3 rounded-lg border border-[#dbe2e6] bg-white p-4 items-center">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e6f6ff] text-[#13a4ec]">
+                <Icon size={24} />
+              </div>
+              <h2 className="text-[#111618] text-base font-bold leading-tight">{label}</h2>
             </div>
-            <h2 className="text-[#111618] text-base font-bold leading-tight">אמינות</h2>
-          </div>
-          <div className="flex gap-3 rounded-lg border border-[#dbe2e6] bg-white p-4 items-center">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e6f6ff] text-[#13a4ec]">
-              <PiUsersThreeFill size={24} />
-            </div>
-            <h2 className="text-[#111618] text-base font-bold leading-tight">שירות אישי</h2>
-          </div>
-          <div className="flex gap-3 rounded-lg border border-[#dbe2e6] bg-white p-4 items-center">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e6f6ff] text-[#13a4ec]">
-              <PiClockFill size={24} />
-            </div>
-            <h2 className="text-[#111618] text-base font-bold leading-tight">התקנה מהירה</h2>
-          </div>
+          ))}
         </div>
 
         <h2 className="text-[#111618] text-xl sm:text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
@@ -167,7 +173,7 @@ export default function HomePage() {
           <div className="overflow-hidden rounded-xl bg-white px-4 py-6">
             {loading ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 py-2 animate-pulse" aria-live="polite">
-                {Array.from({ length: 3 }).map((_, index) => (
+                {reviewSkeletonPlaceholders.map((_, index) => (
                   <div key={index} className="flex flex-col gap-4 rounded-lg border border-[#dbe2e6] bg-white p-5 shadow-sm">
                     <div className="flex items-center gap-3">
                       <div className="size-12 rounded-full bg-[#eef2f4]" />
@@ -193,7 +199,7 @@ export default function HomePage() {
               <p className="text-[#617c89] text-sm text-center">אין המלצות להצגה כעת.</p>
             ) : (
               <div
-              // TODO: todo that it will be end close to start
+                // TODO: todo that it will be end close to start
                 id='reviews'
                 className={`flex gap-6 reviews-marquee${isMarqueeHovered ? ' paused' : ''}`}
                 onMouseEnter={() => setIsMarqueeHovered(true)}
@@ -256,7 +262,7 @@ export default function HomePage() {
                 מוכנים לשדרג את הבית שלכם?
               </h1>
               <p className="text-[#617c89] text-base sm:text-lg leading-relaxed max-w-[640px] mx-auto">
-              נדאג לכל תהליך ההתקנה, משלב התכנון המותאם ועד השירות השוטף — כדי שתיהנו מהנוחות והביטחון.
+                נדאג לכל תהליך ההתקנה, משלב התכנון המותאם ועד השירות השוטף — כדי שתיהנו מהנוחות והביטחון.
               </p>
             </div>
             <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -270,6 +276,6 @@ export default function HomePage() {
           </div>
         </motion.div>
       </div>
-     </div>
-   );
- }
+    </div>
+  );
+}
