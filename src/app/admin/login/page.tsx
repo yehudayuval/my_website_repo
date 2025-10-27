@@ -111,7 +111,7 @@ export default function AdminLoginPage() {
             className="flex w-full sm:w-auto min-w-[120px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-11 px-5 bg-[#13a4ec] disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-bold leading-normal tracking-[0.015em]"
           >
             <span className="flex items-center gap-2">
-              <span className="truncate">{loading ? 'מתחבר' : 'התחברות'}</span>
+              <span className="truncate">{loading ? 'מתחבר ' : 'התחברות'}</span>
               {loading && <FiLoader className="w-4 h-4 animate-spin" aria-hidden="true" />}
             </span>
           </button>
