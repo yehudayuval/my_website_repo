@@ -9,7 +9,7 @@ export async function GET() {
 
     return NextResponse.json({
       success: true,
-      reviews: result.rows
+      reviews: result.rows || [],
     });
   } catch (error) {
     console.error('Get reviews error:', error);

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifyAdminToken } from '@/lib/auth';
 import { isAllowedFileType, uploadFile } from '@/lib/uploadImages';
 import { pool } from '@/lib/db';
+import { revalidateTag } from 'next/cache';
 
 
 export async function POST(request: NextRequest) {
@@ -30,7 +31,7 @@ export async function POST(request: NextRequest) {
       file = form.get('image') as File;
 
     } else {
-      const body = await request.json().catch(() => ({} as any));
+      const body = await request.json().catch(() => ({}));
       name = body?.name ?? null;
       rating = typeof body?.rating === 'number' ? body.rating : Number(body?.rating ?? null);
       content = body?.content ?? null;
@@ -70,6 +71,8 @@ export async function POST(request: NextRequest) {
       'INSERT INTO reviews (name, rating, content, image_filename) VALUES ($1, $2, $3, $4) RETURNING *',
       [name, rating, content, imageFilename]
     );
+
+    revalidateTag('reviews', "max");
 
     return NextResponse.json({
       success: true,

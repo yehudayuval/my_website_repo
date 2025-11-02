@@ -5,8 +5,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { FiLoader } from 'react-icons/fi';
 import { toast } from 'sonner';
 
-import { fetchReviews } from '@/lib/queries/reviews';
-import { Review } from '@/types';
+import { fetchReviews, FetchReviewsResult } from '@/lib/queries/reviews';
 
 const tablesHeaders = ['שם', 'ביקורת', 'דירוג', 'פעולות'];
 
@@ -19,15 +18,17 @@ export function ReviewsTable({ flagForAddedOrDeletedReview, setFlagForAddedOrDel
   const queryClient = useQueryClient();
 
   const {
-    data: reviews = [],
+    data,
     isLoading,
     isError,
     refetch,
-  } = useQuery<Review[]>({
+  } = useQuery<FetchReviewsResult>({
     queryKey: ['reviews'],
     queryFn: fetchReviews,
     staleTime: 5 * 60 * 1000,
   });
+
+  const reviews = data?.reviews ?? [];
 
   const deleteReviewMutation = useMutation({
     mutationFn: async (reviewId: string) => {
@@ -53,9 +54,7 @@ export function ReviewsTable({ flagForAddedOrDeletedReview, setFlagForAddedOrDel
 
           deleteReviewMutation.mutate(reviewId, {
             onSuccess: () => {
-              queryClient.setQueryData<Review[]>(['reviews'], (current) =>
-                current?.filter((review) => review.id !== reviewId) ?? [],
-              );
+              queryClient.invalidateQueries({ queryKey: ['reviews'] });
               toast.success('הביקורת נמחקה', { id: loadingToastId });
               setFlagForAddedOrDeletedReview((prev) => !prev);
             },
@@ -66,9 +65,6 @@ export function ReviewsTable({ flagForAddedOrDeletedReview, setFlagForAddedOrDel
                 }`,
                 { id: loadingToastId },
               );
-            },
-            onSettled: () => {
-              queryClient.invalidateQueries({ queryKey: ['reviews'] });
             },
           });
         },
@@ -83,7 +79,9 @@ export function ReviewsTable({ flagForAddedOrDeletedReview, setFlagForAddedOrDel
   };
 
   useEffect(() => {
-    refetch();
+    if (flagForAddedOrDeletedReview !== undefined) {
+      refetch();
+    }
   }, [flagForAddedOrDeletedReview, refetch]);
 
   return (
@@ -114,7 +112,7 @@ export function ReviewsTable({ flagForAddedOrDeletedReview, setFlagForAddedOrDel
                 <tr className="border-t border-t-[#dbe2e6]">
                   <td colSpan={4} className="px-4 py-6">
                     <div className="flex flex-col items-center justify-center gap-2">
-                      <div className="h-5 w-5 loader" />
+                      <FiLoader className="h-5 w-5 animate-spin text-[#13a4ec]" />
                       <span className="text-sm text-[#617c89]">טוען ביקורות…</span>
                     </div>
                   </td>

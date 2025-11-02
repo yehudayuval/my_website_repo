@@ -28,14 +28,14 @@ export default function RootLayout({
     <html lang="he" dir="rtl">
       <body>
         <QueryProvider>
-        <div
-          className="min-h-dvh overflow-y-auto overflow-x-hidden flex flex-col bg-white"
-          style={{ fontFamily: 'Inter, "Noto Sans", sans-serif' }}>
-          <Header />
-          <div className="flex-1 flex flex-col ">
-            {children}
+          <div
+            className="min-h-dvh overflow-y-auto overflow-x-hidden flex flex-col bg-white"
+            style={{ fontFamily: 'Inter, "Noto Sans", sans-serif' }}>
+            <Header />
+            <div className="flex-1 flex flex-col ">
+              {children}
+            </div>
             <Footer />
-          </div>
             <Toaster
               className="sonner-toast"
               position="top-center"
@@ -49,7 +49,7 @@ export default function RootLayout({
                 },
               }}
             />
-        </div>
+          </div>
         </QueryProvider>
       </body>
     </html>

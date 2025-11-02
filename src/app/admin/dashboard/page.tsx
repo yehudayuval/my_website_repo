@@ -10,7 +10,7 @@ import UploadReview from '@/components/UploadReview';
 
 
 export default function AdminDashboard() {
-  
+
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState<AdminTabKey>('reviews');
@@ -19,26 +19,27 @@ export default function AdminDashboard() {
   const router = useRouter();
 
   useEffect(() => {
-    checkAuth();
-  }, []);
+    const checkAuth = async () => {
+      try {
+        const response = await fetch('/api/admin/verify', {
+          credentials: 'include'
+        });
 
-  const checkAuth = async () => {
-    try {
-      const response = await fetch('/api/admin/verify', {
-        credentials: 'include'
-      });
-
-      if (response.ok) {
-        setAuthenticated(true);
-      } else {
+        if (response.ok) {
+          setAuthenticated(true);
+        } else {
+          router.push('/admin/login');
+        }
+      } catch (error) {
+        console.error('Error checking authentication:', error);
         router.push('/admin/login');
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      router.push('/admin/login');
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
+    checkAuth();
+  });
+
 
   if (loading) {
     return (

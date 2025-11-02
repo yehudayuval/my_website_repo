@@ -7,7 +7,6 @@ export async function GET() {
       `SELECT EXISTS (SELECT 1 FROM reviews LIMIT 1) AS exists;`
     );
 
-    console.log(rows)
     return NextResponse.json({ hasReviews: rows[0]?.exists ?? false });
   } catch (error) {
     console.error('Review exists check failed:', error);

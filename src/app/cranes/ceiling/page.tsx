@@ -1,9 +1,5 @@
-'use client';
-
-import { motion } from 'motion/react';
 import Link from 'next/link';
 import {
-  PiCaretDownBold,
   PiPhone,
   PiRuler,
   PiWrench,
@@ -18,6 +14,7 @@ import { BenefitsSection } from '@/components/BenefitsSection';
 import { PurchaseStepsSection } from '@/components/PurchaseStepsSection';
 import { FaqsSection } from '@/components/FaqsSection';
 import { GalleryImage } from '@/types';
+import { FadeUp } from '@/components/effects/FadeUp';
 
 
 const specifications: Record<string, string> = {
@@ -173,12 +170,8 @@ export default function CeilingCranePage() {
         <SpecificationsSection title="מפרט טכני" entries={specificationEntries} />
         <BenefitsSection title="יתרונות מרכזיים" benefits={benefits} />
         <PurchaseStepsSection title="תהליך רכישה וייעוץ" steps={purchaseSteps} />
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="flex px-4 py-3 mt-5 justify-center"
+        <FadeUp
+          classes="flex px-4 py-3 mt-5 justify-center"
         >
           <Link
             href="/contact-us"
@@ -186,7 +179,7 @@ export default function CeilingCranePage() {
           >
             <span className="truncate">תיאום ייעוץ והדגמה בחינם</span>
           </Link>
-        </motion.div>
+        </FadeUp>
         <FaqsSection title="שאלות נפוצות" faqs={faqs} />
       </div>
     </div>

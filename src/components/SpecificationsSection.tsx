@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { FadeUp } from "./effects/FadeUp";
 
 type SpecificationsSectionProps = {
   title: string;
@@ -20,15 +20,10 @@ export function SpecificationsSection({ title, entries, about = 'specifications-
               index % 2 === 0 ? 'sm:pr-2' : 'sm:pl-2'
             }`}
           >
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.15 + index * 0.05 }}
-              viewport={{ once: true }}
-            >
+            <FadeUp>
               <p className="text-[#617c89] text-sm font-normal leading-normal">{label}</p>
               <p className="text-[#111618] text-sm font-normal leading-normal">{value}</p>
-            </motion.div>
+            </FadeUp>
           </div>
         ))}
       </section>

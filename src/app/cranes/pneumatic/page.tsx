@@ -1,6 +1,3 @@
-'use client';
-
-import { motion } from 'motion/react';
 import Link from 'next/link';
 import {
   PiPhone,
@@ -19,6 +16,7 @@ import { BenefitsSection } from '@/components/BenefitsSection';
 import { PurchaseStepsSection } from '@/components/PurchaseStepsSection';
 import { FaqsSection } from '@/components/FaqsSection';
 import { GalleryImage } from '@/types';
+import { FadeUp } from '@/components/effects/FadeUp';
 
 const specifications = {
   'קיבולת הרמה': '0.5-10 טון',
@@ -149,7 +147,6 @@ const galleryImages: GalleryImage[] = [
 
 const specificationEntries = Object.entries(specifications);
 
-// TODO: use https://motion.dev/docs/react-motion-component#server-side-rendering to animations
 export default function PneumaticCranePage() {
   return (
     <div className="px-4 sm:px-6 lg:px-10 flex flex-1 justify-center py-5">
@@ -179,12 +176,8 @@ export default function PneumaticCranePage() {
         <SpecificationsSection title="מפרט טכני" entries={specificationEntries} />
         <BenefitsSection title="יתרונות עיקריים" benefits={benefits} />
         <PurchaseStepsSection title="תהליך רכישה וייעוץ" steps={purchaseSteps} />
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="flex px-4 py-3 justify-center mt-5"
+        <FadeUp
+          classes="flex px-4 py-3 justify-center mt-5"
         >
           <Link
             href="/contact-us"
@@ -192,7 +185,7 @@ export default function PneumaticCranePage() {
           >
             <span className="truncate">תיאום ייעוץ והדגמה בחינם</span>
           </Link>
-        </motion.div>
+        </FadeUp>
         <FaqsSection title="שאלות נפוצות" faqs={faqs} />
       </div>
     </div>

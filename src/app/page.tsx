@@ -1,15 +1,11 @@
-'use client';
-
-import { motion } from 'motion/react';
+import { Suspense } from 'react';
 import { PiShieldCheckFill, PiUsersThreeFill, PiClockFill } from 'react-icons/pi';
 import Image from 'next/image';
 import Link from 'next/link';
-import Marquee from 'react-fast-marquee';
-import { useQuery } from '@tanstack/react-query';
 
-import ReviewCard from '@/components/ReviewCard';
-import { fetchReviews } from '@/lib/queries/reviews';
-import { ReviewSkeleton } from '@/components/ReviewSkeleton';
+import { FadeUp } from '@/components/effects/FadeUp';
+import ReviewsSection from '@/components/home/ReviewsSection';
+import ReviewsSkeleton from '@/components/ReviewsSkeleton';
 
 const solutionCards = [
 	{
@@ -32,21 +28,7 @@ const valueHighlights = [
 	{ icon: PiClockFill, label: 'התקנה מהירה' },
 ];
 
-export default function HomePage() {
-  // TODO: maybe use server actions for reviews fetching
-  const {
-		data: reviewsData,
-		isLoading: isReviewsLoading,
-		isError: isReviewsError,
-	} = useQuery({
-		queryKey: ['reviews'],
-		queryFn: fetchReviews,
-		staleTime: 5 * 60 * 1000,
-	});
-
-	const reviews = reviewsData ?? [];
-	const loading = isReviewsLoading;
-
+export default async function HomePage() {
 	return (
 		<div className="px-4 sm:px-6 lg:px-10 flex flex-1 justify-center py-5">
 			<div className="layout-content-container flex flex-col w-full max-w-[960px]">
@@ -61,12 +43,7 @@ export default function HomePage() {
 								className="object-cover"
 							/>
 							<div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.1)_0%,rgba(0,0,0,0.4)_100%)]" />
-							<motion.div
-								className="relative z-10 flex flex-col gap-3 justify-center items-center"
-								initial={{ opacity: 0, y: 100 }}
-								animate={{ opacity: 1, y: 0 }}
-								transition={{ duration: 0.8 }}
-							>
+							<FadeUp classes="relative z-10 flex flex-col gap-3 justify-center items-center">
 								<h1 className="relative z-10 text-white text-3xl sm:text-5xl font-black leading-tight tracking-[-0.02em] text-center">
 									בטיחות ואיכות חיים בבית שלך!
 								</h1>
@@ -76,7 +53,7 @@ export default function HomePage() {
 								>
 									<span className="truncate">צרו קשר לייעוץ חינם</span>
 								</Link>
-							</motion.div>
+							</FadeUp>
 						</div>
 					</div>
 				</div>
@@ -95,15 +72,10 @@ export default function HomePage() {
 									className="object-cover"
 								/>
 							</div>
-							<motion.div
-								initial={{ opacity: 0, y: 80 }}
-								whileInView={{ opacity: 1, y: 0 }}
-								transition={{ duration: 0.8 }}
-								viewport={{ once: true, amount: 0.4 }}
-							>
+							<FadeUp>
 								<p className="text-[#111618] text-base font-medium leading-normal">{title}</p>
 								<p className="text-[#617c89] text-sm font-normal leading-normal">{description}</p>
-							</motion.div>
+							</FadeUp>
 						</div>
 					))}
 				</div>
@@ -128,41 +100,11 @@ export default function HomePage() {
 				<h2 className="text-[#111618] text-xl sm:text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
 					המלצות לקוחות
 				</h2>
-				<div className="relative px-4">
-					{/* TODO: decide with designer about gradients */}
-					{!loading && (
-						<>
-							<div className="pointer-events-none z-10 absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-white via-white/70 to-transparent backdrop-blur-sm" />
-							<div className="pointer-events-none z-10 absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-white via-white/70 to-transparent backdrop-blur-sm" />
-						</>
-					)}
-					<div className="overflow-hidden rounded-xl bg-white px-4 py-6">
-						{loading ? (
-							<ReviewSkeleton count={3} />
-						) : !isReviewsError && reviews.length === 0 ? (
-							<p className="text-[#617c89] text-sm text-center">אין המלצות להצגה כעת.</p>
-						) : isReviewsError ? (
-							<p className="text-[#617c89] text-sm text-center">שגיאה בטעינת המלצות.</p>
-						) : (
-							<div
-								// TODO: check if mobile works well and need that be end close to start without gap
-								id='reviews'
-							>
-								<Marquee gradient speed={500} pauseOnHover autoFill={true}>
-									{[...reviews, ...reviews].map((review, idx) => (
-										<ReviewCard key={`${review.id ?? review.name}-${idx}`} review={review} idx={idx} />
-									))}
-								</Marquee>
-							</div>
-						)}
-					</div>
-				</div>
-				<motion.div
-					initial={{ opacity: 0, y: 80 }}
-					whileInView={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.8 }}
-					viewport={{ once: true, amount: 0.4 }}
-				>
+				<Suspense fallback={<ReviewsSkeleton />}>
+					<ReviewsSection />
+				</Suspense>
+
+				<FadeUp>
 					<div className="flex flex-col justify-end gap-6 px-4 py-10 sm:gap-8 sm:px-10 sm:py-20">
 						<div className="flex flex-col gap-3 text-center">
 							<h1 className="text-[#111618] text-2xl sm:text-4xl font-bold leading-tight tracking-[-0.02em] max-w-[720px] mx-auto">
@@ -181,8 +123,9 @@ export default function HomePage() {
 							</Link>
 						</div>
 					</div>
-				</motion.div>
+				</FadeUp>
 			</div>
-		</div>
+		</div >
+
 	);
 }
