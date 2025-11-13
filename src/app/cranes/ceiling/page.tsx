@@ -16,52 +16,76 @@ import { FaqsSection } from '@/components/FaqsSection';
 import { GalleryImage } from '@/types';
 import { FadeUp } from '@/components/effects/FadeUp';
 import { Metadata } from 'next';
+import { MediaPlayer } from '@vidstack/react';
 
+const {
+  NEXT_PUBLIC_CEILING_META_TITLE = 'מנוף תקרה',
+  NEXT_PUBLIC_CEILING_PAGE_HEADING = 'מנוף תקרה',
+  NEXT_PUBLIC_CEILING_PAGE_DESCRIPTION = '',
+  NEXT_PUBLIC_CEILING_GALLERY_PRIMARY_ALT = 'מנוף תקרה - מבט קדמי',
+  NEXT_PUBLIC_CEILING_GALLERY_SIDE_ALT = 'מנוף תקרה - מבט צד',
+  NEXT_PUBLIC_CEILING_GALLERY_CABIN_ALT = 'מנוף תקרה - מנגנון פעולה',
+  NEXT_PUBLIC_CEILING_SPECIFICATIONS_TITLE = 'מפרט טכני',
+  NEXT_PUBLIC_CEILING_SPECIFICATIONS = '',
+  NEXT_PUBLIC_CEILING_BENEFITS_TITLE = 'יתרונות מרכזיים',
+  NEXT_PUBLIC_CEILING_BENEFIT_TITLES = '',
+  NEXT_PUBLIC_CEILING_BENEFIT_DESCRIPTIONS = '',
+  NEXT_PUBLIC_CEILING_PURCHASE_STEPS_TITLE = 'תהליך רכישה וייעוץ',
+  NEXT_PUBLIC_CEILING_PURCHASE_STEP_TITLES = '',
+  NEXT_PUBLIC_CEILING_PURCHASE_STEP_DESCRIPTIONS = '',
+  NEXT_PUBLIC_CEILING_FAQS_TITLE = 'שאלות נפוצות',
+  NEXT_PUBLIC_CEILING_FAQS_QUESTIONS = '',
+  NEXT_PUBLIC_CEILING_FAQS_ANSWERS = '',
+} = process.env;
 
-const specifications: Record<string, string> = {
-  'קיבולת הרמה': '1-50 טון',
-  'גובה הרמה': 'עד 30 מטר',
-  'רוחב המנוף': '5-35 מטר',
-  'מהירות הרמה': '0.8-8 מ/דקה',
-  'מהירות נסיעה': '2-20 מ/דקה',
-  'מקור חשמל': '380V/50Hz',
-  'דירוג הגנה': 'IP54',
-  'תקן בטיחות': 'ISO 9001:2015',
-};
+const splitList = (value?: string) =>
+  (value ?? '')
+    .split('|')
+    .map((item) => item.trim())
+    .filter(Boolean);
 
-const benefits = [
-  {
-    icon: PiShieldCheck,
-    title: 'משפר עצמאות וניידות בבית',
-    description: 'מאפשר תנועה עצמאית ובטוחה בין קומות ללא מאמץ פיזי.',
-  },
-  {
-    icon: PiShieldCheck,
-    title: 'מפחית סיכון לנפילות ופגיעות',
-    description: 'מערכת בטיחות מתקדמת למניעת תאונות ומתן שקט נפשי.',
-  },
-  {
-    icon: PiRuler,
-    title: 'התאמה אישית למידות החדר',
-    description: 'ניתן להתאמה לגובה תקרה וגודל חדר שונים ללא צורך בשינויים מבניים.',
-  },
-  {
-    icon: PiSpeakerHigh,
-    title: 'פעולה שקטה וחלקה',
-    description: 'מנוע שקט ותנועה חלקה ללא רעש או זעזועים.',
-  },
-  {
-    icon: PiWrench,
-    title: 'התקנה מקצועית והדרכה',
-    description: 'התקנה על ידי צוות מקצועי כולל הדרכה מלאה על השימוש.',
-  },
+const splitPairs = (value?: string) =>
+  splitList(value)
+    .map<[string, string]>((pair) => {
+      const [label, val] = pair.split('::');
+      return [(label ?? '').trim(), (val ?? '').trim()];
+    })
+    .filter(([label, val]) => label && val);
+
+const defaultSpecifications: [string, string][] = [
+  ['קיבולת הרמה', '1-50 טון'],
+  ['גובה הרמה', 'עד 30 מטר'],
+  ['רוחב המנוף', '5-35 מטר'],
+  ['מהירות הרמה', '0.8-8 מ/דקה'],
+  ['מהירות נסיעה', '2-20 מ/דקה'],
+  ['מקור חשמל', '380V/50Hz'],
+  ['דירוג הגנה', 'IP54'],
+  ['תקן בטיחות', 'ISO 9001:2015'],
 ];
+
+const specificationEntries = (() => {
+  const parsed = splitPairs(NEXT_PUBLIC_CEILING_SPECIFICATIONS);
+  return parsed.length ? parsed : defaultSpecifications;
+})();
+
+const benefitTitles = splitList(NEXT_PUBLIC_CEILING_BENEFIT_TITLES);
+const benefitDescriptions = splitList(NEXT_PUBLIC_CEILING_BENEFIT_DESCRIPTIONS);
+const benefitIcons = [PiShieldCheck, PiShieldCheck, PiRuler, PiSpeakerHigh, PiWrench];
+
+const benefits = benefitIcons
+  .map((Icon, idx) => ({
+    icon: Icon,
+    title: benefitTitles[idx] ?? '',
+    description: benefitDescriptions[idx] ?? '',
+  }))
+  .filter((item) => item.title && item.description);
+
+const stepTitles = splitList(NEXT_PUBLIC_CEILING_PURCHASE_STEP_TITLES);
+const stepDescriptions = splitList(NEXT_PUBLIC_CEILING_PURCHASE_STEP_DESCRIPTIONS);
 
 const purchaseSteps = [
   {
     icon: PiPhone,
-    title: 'צרו קשר',
-    description: 'דברו איתנו לתיאום והתאמת פתרון מדויק לצרכים שלכם.',
     showTopLine: false,
     showBottomLine: true,
     bottomLineGrow: true,
@@ -69,82 +93,66 @@ const purchaseSteps = [
   },
   {
     icon: PiRuler,
-    title: 'התאמה אישית',
-    description: 'הצוות שלנו יבחן את המקום ויגבש תוכנית התאמה אישית.',
     showTopLine: true,
     showBottomLine: true,
     bottomLineGrow: true,
   },
   {
     icon: PiWrench,
-    title: 'התקנה',
-    description: 'התקנה מקצועית ע״י צוות טכנאים מוסמך.',
     showTopLine: true,
     showBottomLine: true,
     bottomLineGrow: true,
   },
   {
     icon: PiGraduationCap,
-    title: 'הדרכה',
-    description: 'הדרכה מלאה על תפעול ובטיחות המערכת.',
     showTopLine: true,
     showBottomLine: false,
     bottomLineGrow: false,
     wrapperClassName: 'pb-3',
   },
-];
+]
+  .map((step, idx) => ({
+    ...step,
+    title: stepTitles[idx] ?? '',
+    description: stepDescriptions[idx] ?? '',
+  }))
+  .filter((step) => step.title && step.description);
 
-const faqs = [
-  {
-    question: 'כמה עולה המנוף?',
-    answer:
-    'המחיר משתנה לפי התאמות אישיות ומורכבות ההתקנה. צרו קשר לקבלת הצעת מחיר מותאמת.',
-  },
-  {
-    question: 'האם קיימות אפשרויות מימון?',
-    answer: 'כן. נוכל להציע פתרונות מימון בהתאם לצורך ולתנאים המותאמים לכל לקוח.',
-  },
-  {
-    question: 'כמה זמן לוקחת ההתקנה?',
-    answer: 'לרוב מספר ימים עד שבועות, בהתאם להכנות ולמאפייני המבנה.',
-  },
-  {
-    question: 'מה האחריות?',
-    answer: 'אחריות יצרן מקיפה בהתאם לדגם ולהתקנה. נשמח לפרט בפגישה.',
-  },
-  {
-    question: 'איזו תחזוקה נדרשת?',
-    answer: 'תחזוקה בסיסית ובדיקות תקופתיות לשמירה על בטיחות וביצועים מיטביים.',
-  },
-];
+const faqQuestions = splitList(NEXT_PUBLIC_CEILING_FAQS_QUESTIONS);
+const faqAnswers = splitList(NEXT_PUBLIC_CEILING_FAQS_ANSWERS);
+
+const faqs = faqQuestions
+  .map((question, idx) => ({
+    question,
+    answer: faqAnswers[idx] ?? '',
+  }))
+  .filter((item) => item.question && item.answer);
 
 const galleryImages: GalleryImage[] = [
   {
     name: 'primary',
     classes: 'relative h-56 sm:h-auto sm:col-span-2 sm:row-span-2',
     src: '/ceiling-1.png',
-    alt: 'מנוף תקרה - מבט קדמי',
+    alt: NEXT_PUBLIC_CEILING_GALLERY_PRIMARY_ALT,
   },
   {
     name: 'side',
     classes: 'relative h-40 sm:h-auto sm:col-span-1',
     src: '/ceiling-2.png',
-    alt: 'מנוף תקרה - מבט צד',
+    alt: NEXT_PUBLIC_CEILING_GALLERY_SIDE_ALT,
   },
   {
     name: 'cabin',
     classes: 'relative h-40 sm:h-auto sm:col-span-1',
     src: '/ceiling-3.png',
-    alt: 'מנוף תקרה - מנגנון פעולה',
+    alt: NEXT_PUBLIC_CEILING_GALLERY_CABIN_ALT,
   },
 ];
 
-const specificationEntries = Object.entries(specifications);
-
 export const metadata: Metadata = {
-  title: "מנוף תקרה"
-}
-  
+  title: NEXT_PUBLIC_CEILING_META_TITLE,
+};
+
 export default function CeilingCranePage() {
   return (
     <div className="px-4 sm:px-6 lg:px-10 flex flex-1 justify-center py-5">
@@ -152,10 +160,10 @@ export default function CeilingCranePage() {
         <div className="flex flex-wrap justify-between gap-3 p-4">
           <div className="flex min-w-72 flex-col gap-3">
             <p className="text-[#111618] tracking-light text-[28px] sm:text-[32px] font-bold leading-tight">
-              מנוף תקרה
+              {NEXT_PUBLIC_CEILING_PAGE_HEADING}
             </p>
             <p className="text-[#617c89] text-sm font-normal leading-normal">
-              מנוף תקרה קבוע המיועד לחללים קטנים ולהרמות תכופות, ומספק עבודה חלקה ובטוחה בסביבת הבית או העסק.
+              {NEXT_PUBLIC_CEILING_PAGE_DESCRIPTION}
             </p>
           </div>
         </div>
@@ -165,19 +173,19 @@ export default function CeilingCranePage() {
         </section>
 
         <section className="p-4" about="video-section">
-          <VideoPlayer
-            src="/1761047054525.mov"
-            poster="/poster-ceiling.png"
-            classes="w-full rounded-lg aspect-[16/9]"
-          />
+          <MediaPlayer>
+            <VideoPlayer
+              src="/elit.mov"
+              poster="/poster-ceiling.png"
+              classes="w-full rounded-lg aspect-[16/9]"
+            />
+          </MediaPlayer>
         </section>
 
-        <SpecificationsSection title="מפרט טכני" entries={specificationEntries} />
-        <BenefitsSection title="יתרונות מרכזיים" benefits={benefits} />
-        <PurchaseStepsSection title="תהליך רכישה וייעוץ" steps={purchaseSteps} />
-        <FadeUp
-          classes="flex px-4 py-3 mt-5 justify-center"
-        >
+        <SpecificationsSection title={NEXT_PUBLIC_CEILING_SPECIFICATIONS_TITLE} entries={specificationEntries} />
+        <BenefitsSection title={NEXT_PUBLIC_CEILING_BENEFITS_TITLE} benefits={benefits} />
+        <PurchaseStepsSection title={NEXT_PUBLIC_CEILING_PURCHASE_STEPS_TITLE} steps={purchaseSteps} />
+        <FadeUp classes="flex px-4 py-3 mt-5 justify-center">
           <Link
             href="/contact-us"
             className="flex min-w-[84px] max-w-[480px] w-full sm:w-auto cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-[#13a4ec] text-white text-base font-bold leading-normal tracking-[0.015em]"
@@ -185,7 +193,7 @@ export default function CeilingCranePage() {
             <span className="truncate">תיאום ייעוץ והדגמה בחינם</span>
           </Link>
         </FadeUp>
-        <FaqsSection title="שאלות נפוצות" faqs={faqs} />
+        <FaqsSection title={NEXT_PUBLIC_CEILING_FAQS_TITLE} faqs={faqs} />
       </div>
     </div>
   );

@@ -277,16 +277,56 @@ export function ProjectImages({ flagForAddedOrDeletedReview }: ProjectImagesProp
             )}
       </div>
 
-      <div className="px-4 sm:px-6 py-3">
+      <section className="px-4 sm:px-6 py-3" about="notes-section">
         <div className="rounded-lg border border-[#dbe2e6] bg-[#f8fbfc] p-3">
           <p className="text-[#111618] text-base font-medium leading-normal pb-1">הערות למנהל</p>
           <ul className="ps-5 text-sm text-[#617c89] list-disc space-y-1">
-            <li>שם הקובץ favicon.ico יופיע אוטומטית בלשונית התמונות.</li>
             <li>ניתן להעלות תמונות (PNG/JPG/WEBP/GIF/SVG/ICO) או וידאו (MP4/MOV/WEBM/MKV).</li>
             <li>מחיקה תסיר את הקבצים לצמיתות מתיקיית public/.</li>
+            <li>
+              קבצים בשימוש בעמודים:
+              <ul className="ps-5 space-y-1 list-disc">
+                <li>
+                  עמוד הבית:
+                  <ul className="ps-5 space-y-1 list-disc">
+                    <li>
+                      תמונות: <code>home-1.png</code>, <code>home-2.png</code>, <code>home-3.png</code>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  עמוד מנוף תקרה:
+                  <ul className="ps-5 space-y-1 list-disc">
+                    <li>
+                      תמונות: <code>ceiling-1.png</code>, <code>ceiling-2.png</code>, <code>ceiling-3.png</code>
+                    </li>
+                    <li>
+                      וידאו: <code>elit.mov</code>
+                    </li>
+                    <li>
+                      תמונת פוסטר: <code>poster-ceiling.png</code>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  עמוד מעלית פנאומטית:
+                  <ul className="ps-5 space-y-1 list-disc">
+                    <li>
+                      תמונות: <code>pneumatic-1.png</code>, <code>pneumatic-2.png</code>, <code>pneumatic-3.png</code>
+                    </li>
+                    <li>
+                      וידאו: <code>pneumatic.mov</code>
+                    </li>
+                    <li>
+                      תמונת פוסטר: <code>poster-pneumatic.png</code>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
           </ul>
         </div>
-      </div>
+      </section>
 
       <div className="flex px-4 sm:px-6 py-3 gap-3 justify-start">
         <button

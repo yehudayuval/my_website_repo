@@ -5,13 +5,21 @@ import { useRouter, usePathname } from 'next/navigation';
 import { MouseEvent, useEffect, useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchReviewsExistence } from '@/lib/queries/reviews';
-import { PiDiamondBold, PiListBold, PiXBold } from 'react-icons/pi';
+import { PiListBold, PiXBold } from 'react-icons/pi';
+import logoImg from '../../public/logo.png';
+import Image from 'next/image';
+
+const {
+  NEXT_PUBLIC_NAV_COMPANY_NAME = 'פתרונות מעליות',
+  NEXT_PUBLIC_NAV_LINK_CEILING_LABEL = 'מעלית אליט',
+  NEXT_PUBLIC_NAV_LINK_PNEUMATIC_LABEL = 'מעלית פנאומטית',
+  NEXT_PUBLIC_NAV_LINK_REVIEWS_LABEL = 'המלצות לקוחות',
+} = process.env;
 
 const navLinks = [
-  { href: '/cranes/ceiling', label: 'מעלית אליט' },
-  { href: '/cranes/pneumatic', label: 'מעלית פנאומטית' },
-  { href: '/#reviews', label: 'המלצות לקוחות' },
-  { href: '/contact-us', label: 'צרו קשר' },
+  { href: '/cranes/ceiling', label: NEXT_PUBLIC_NAV_LINK_CEILING_LABEL },
+  { href: '/cranes/pneumatic', label: NEXT_PUBLIC_NAV_LINK_PNEUMATIC_LABEL },
+  { href: '/#reviews', label: NEXT_PUBLIC_NAV_LINK_REVIEWS_LABEL },
 ];
 
 const Header = () => {
@@ -74,8 +82,10 @@ const Header = () => {
     <>
       <header className="fixed w-full bg-white/80 backdrop-blur-md z-50  flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f0f3f4] px-4 sm:px-6 lg:px-10 py-3">
         <Link href="/" className="flex items-center gap-4 text-[#111618]">
-          <PiDiamondBold className="size-4" />
-          <h2 className="text-[#111618] text-base sm:text-lg font-bold leading-tight tracking-[-0.015em]">פתרונות מעליות</h2>
+          <Image src={logoImg} alt="logo" className="size-8" />
+          <h2 className="text-[#111618] text-base sm:text-lg font-bold leading-tight tracking-[-0.015em]">
+            {NEXT_PUBLIC_NAV_COMPANY_NAME}
+          </h2>
         </Link>
 
         {

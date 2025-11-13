@@ -1,6 +1,4 @@
-'use client';
-
-const Footer = () => {
+const Footer = async() => {
   return (
     <footer className="flex justify-center">
       <div className="flex w-full max-w-[960px] flex-col">
