@@ -15,28 +15,19 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  let name: string | null = null;
-  let rating: number | null = null;
-  let content: string | null = null;
-  let imageFilename: string | null = null;
-  let file: File | null = null;
   try {
     const form = await request.formData();
 
-    if (form.has('image')) {
+    const name = (form.get('name') as string) || null;
+    const ratingVal = form.get('rating');
+    const rating = ratingVal ? Number(ratingVal) : null;
+    const content = (form.get('content') as string) || null;
+    
+    // Handle image safely
+    const imageEntry = form.get('image');
+    const file = (imageEntry instanceof File && imageEntry.size > 0) ? imageEntry : null;
 
-      name = (form.get('name') as string) || null;
-      rating = form.get('rating') != null ? Number(form.get('rating')) : null;
-      content = (form.get('content') as string) || null;
-      file = form.get('image') as File;
-
-    } else {
-      const body = await request.json().catch(() => ({}));
-      name = body?.name ?? null;
-      rating = typeof body?.rating === 'number' ? body.rating : Number(body?.rating ?? null);
-      content = body?.content ?? null;
-    }
-
+    // Validation
     if (!name || !rating || !content) {
       return NextResponse.json(
         { success: false, error: 'דירוג, תוכן ושם הם שדות חובה' },
@@ -58,13 +49,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (file && isAllowedFileType(file.name)) {
-      imageFilename = await uploadFile(file);
-    }else if (file) {
-      return NextResponse.json(
-        { success: false, error: 'סוג הקובץ לא נתמך' },
-        { status: 400 }
-      );
+    let imageFilename: string | null = null;
+
+    if (file) {
+      if (isAllowedFileType(file.name)) {
+        imageFilename = await uploadFile(file);
+      } else {
+        return NextResponse.json(
+          { success: false, error: 'סוג הקובץ לא נתמך' },
+          { status: 400 }
+        );
+      }
     }
 
     const result = await pool.query(
@@ -72,7 +67,7 @@ export async function POST(request: NextRequest) {
       [name, rating, content, imageFilename]
     );
 
-    revalidateTag('reviews', "max");
+    revalidateTag('reviews', 'max');
 
     return NextResponse.json({
       success: true,

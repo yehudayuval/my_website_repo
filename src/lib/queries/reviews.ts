@@ -8,10 +8,27 @@ export type FetchReviewsResult = {
 const baseUrl = process.env.__NEXT_PRIVATE_ORIGIN ?? '';
 
 export async function fetchReviews(): Promise<FetchReviewsResult> {
-  const response = await fetch(`${baseUrl}/api/reviews`, { 
-    next: { tags: ['reviews'] }, headers: { 'origin': baseUrl } 
+
+  if (typeof window === 'undefined') {
+    try {
+      const { pool } = await import('@/lib/db');
+      const result = await pool.query(
+        'SELECT * FROM reviews ORDER BY created_at DESC'
+      );
+
+      return {
+        status: 'success',
+        reviews: result.rows || [],
+      };
+    } catch (error) {
+      console.error('Database fetch error:', error);
+      return { status: 'error', reviews: [] };
+    }
+  }
+  const response = await fetch(`${baseUrl}/api/reviews`, {
+    next: { tags: ['reviews'] }, headers: { 'origin': baseUrl }
   });
-  
+
   if (!response.ok) {
     return {
       status: 'error',

@@ -9,7 +9,7 @@ import { pool } from '@/lib/db';
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // Verify admin authentication
   const admin = verifyAdminToken(request);
@@ -21,7 +21,7 @@ export async function DELETE(
   }
 
   try {
-    const { id } = params;
+    const { id } = await params;
 
     // Get the review to delete associated image file
     const review = await pool.query('SELECT * FROM reviews WHERE id = $1', [id]);
