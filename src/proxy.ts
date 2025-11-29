@@ -22,9 +22,9 @@ export async function proxy(req: NextRequest) {
   }
 
   const headersList = await headers();
-  const origin = headersList.get('origin') || '';
+  const origin = headersList.get(':authority') || '';
   const isAllowed = allowedOrigins.includes(origin);
-  
+
   if (!isAllowed) {
     return NextResponse.json(
       { error: 'Origin not allowed' },
