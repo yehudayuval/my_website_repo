@@ -156,10 +156,10 @@ export const metadata: Metadata = {
 export default function CeilingCranePage() {
   return (
     <div className="px-4 sm:px-6 lg:px-10 flex flex-1 justify-center py-5">
-      <div className="layout-content-container flex flex-col w-full max-w-[960px]">
+      <div className="layout-content-container flex flex-col w-full max-w-[60rem]">
         <div className="flex flex-wrap justify-between gap-3 p-4">
           <div className="flex min-w-72 flex-col gap-3">
-            <p className="text-[#111618] tracking-light text-[28px] sm:text-[32px] font-bold leading-tight">
+            <p className="text-[#111618] tracking-light text-[1.75rem] sm:text-[2rem] font-bold leading-tight">
               {NEXT_PUBLIC_CEILING_PAGE_HEADING}
             </p>
             <p className="text-[#617c89] text-sm font-normal leading-normal">
@@ -188,7 +188,7 @@ export default function CeilingCranePage() {
         <FadeUp classes="flex px-4 py-3 mt-5 justify-center">
           <Link
             href="/contact-us"
-            className="flex min-w-[84px] max-w-[480px] w-full sm:w-auto cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-[#13a4ec] text-white text-base font-bold leading-normal tracking-[0.015em]"
+            className="flex min-w-[5.25rem] max-w-[30rem] w-full sm:w-auto cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-[#13a4ec] text-white text-base font-bold leading-normal tracking-[0.015em]"
           >
             <span className="truncate">תיאום ייעוץ והדגמה בחינם</span>
           </Link>

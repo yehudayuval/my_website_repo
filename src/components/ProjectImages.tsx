@@ -164,7 +164,7 @@ export function ProjectImages({ flagForAddedOrDeletedReview }: ProjectImagesProp
 
   const renderSkeletons = (keyPrefix: string) =>
     skeletonPlaceholders.map((_, index) => (
-      <div key={`${keyPrefix}-${index}`} className="flex flex-col gap-3 max-w-[200px] animate-pulse">
+      <div key={`${keyPrefix}-${index}`} className="flex flex-col gap-3 max-w-[12.5rem] animate-pulse">
         <div className="w-full aspect-square rounded-lg bg-[#edf3f6]" />
         <div className="h-3 w-3/4 self-center rounded bg-[#edf3f6]" />
       </div>
@@ -172,7 +172,7 @@ export function ProjectImages({ flagForAddedOrDeletedReview }: ProjectImagesProp
 
   return (
     <section className="w-full">
-      <h2 className="text-[#111618] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 sm:px-6 pb-3 pt-5">
+      <h2 className="text-[#111618] text-[1.375rem] font-bold leading-tight tracking-[-0.015em] px-4 sm:px-6 pb-3 pt-5">
         תמונות בפרויקט
       </h2>
       <div className="grid grid-cols-3 sm:grid-cols-[repeat(auto-fit,minmax(158px,1fr))] min-h-24 gap-2 sm:gap-3 p-4 sm:px-6">
@@ -186,7 +186,7 @@ export function ProjectImages({ flagForAddedOrDeletedReview }: ProjectImagesProp
               images.map((image) => {
                 const isSelected = !!selected[image.filename];
                 return (
-                  <div key={image.filename} className="flex flex-col gap-3 max-w-[200px]">
+                  <div key={image.filename} className="flex flex-col gap-3 max-w-[12.5rem]">
                     <button
                       type="button"
                       className="relative w-full bg-center bg-no-repeat aspect-square bg-cover rounded-lg outline-0 focus:outline-none"
@@ -221,7 +221,7 @@ export function ProjectImages({ flagForAddedOrDeletedReview }: ProjectImagesProp
             )}
       </div>
 
-      <h2 className="text-[#111618] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 sm:px-6 pb-3 pt-2">
+      <h2 className="text-[#111618] text-[1.375rem] font-bold leading-tight tracking-[-0.015em] px-4 sm:px-6 pb-3 pt-2">
         סרטונים בפרויקט
       </h2>
       <div className="grid grid-cols-3 sm:grid-cols-[repeat(auto-fit,minmax(158px,1fr))] min-h-24 gap-2 sm:gap-3 p-4 sm:px-6">
@@ -235,7 +235,7 @@ export function ProjectImages({ flagForAddedOrDeletedReview }: ProjectImagesProp
               videos.map((video) => {
                 const isSelected = !!selected[video.filename];
                 return (
-                  <div key={video.filename} className="flex flex-col gap-3 max-w-[200px]">
+                  <div key={video.filename} className="flex flex-col gap-3 max-w-[12.5rem]">
                     {deleteMode ? (
                       <button
                         type="button"
@@ -331,7 +331,7 @@ export function ProjectImages({ flagForAddedOrDeletedReview }: ProjectImagesProp
       <div className="flex px-4 sm:px-6 py-3 gap-3 justify-start">
         <button
           onClick={handlePickFiles}
-          className="flex min-w-[120px] max-w-[480px] items-center justify-center gap-2 h-10 rounded-lg bg-[#13a4ec] px-4 text-sm font-bold leading-normal text-white tracking-[0.015em]"
+          className="flex min-w-[7.5rem] max-w-[30rem] items-center justify-center gap-2 h-10 rounded-lg bg-[#13a4ec] px-4 text-sm font-bold leading-normal text-white tracking-[0.015em]"
         >
           <FiUpload className="h-4 w-4" />
           <span className="truncate">העלאת קבצים</span>
@@ -346,7 +346,7 @@ export function ProjectImages({ flagForAddedOrDeletedReview }: ProjectImagesProp
         />
         <button
           onClick={deleteSelected}
-          className="flex min-w-[160px] max-w-[480px] items-center justify-center h-10 rounded-lg bg-[#f0f3f4] px-4 text-sm font-bold leading-normal text-[#111618] tracking-[0.015em]"
+          className="flex min-w-[10rem] max-w-[30rem] items-center justify-center h-10 rounded-lg bg-[#f0f3f4] px-4 text-sm font-bold leading-normal text-[#111618] tracking-[0.015em]"
         >
           <span className="truncate">
             {deleteMode ? `מחק ${selectedList.length} פריטים נבחרים` : 'בחר פריטים למחיקה'}

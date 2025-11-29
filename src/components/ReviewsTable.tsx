@@ -86,7 +86,7 @@ export function ReviewsTable({ flagForAddedOrDeletedReview, setFlagForAddedOrDel
 
   return (
     <section className="w-full">
-      <h2 className="text-[#111618] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 sm:px-6 pb-3 pt-5">
+      <h2 className="text-[#111618] text-[1.375rem] font-bold leading-tight tracking-[-0.015em] px-4 sm:px-6 pb-3 pt-5">
         כל הביקורות
       </h2>
       <div className="px-4 sm:px-6 py-3">
@@ -99,7 +99,7 @@ export function ReviewsTable({ flagForAddedOrDeletedReview, setFlagForAddedOrDel
                     key={header}
                     className={
                       'px-4 py-3 text-right text-[#111618] text-sm font-medium leading-normal' +
-                      (index <= 1 ? ' w-[400px]' : ' w-60')
+                      (index <= 1 ? ' w-[25rem]' : ' w-60')
                     }
                   >
                     {header}
@@ -132,18 +132,18 @@ export function ReviewsTable({ flagForAddedOrDeletedReview, setFlagForAddedOrDel
               ) : (
                 reviews.map((review) => (
                   <tr key={review.id} className="border-t border-t-[#dbe2e6]">
-                    <td className="h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#111618]">
+                    <td className="h-[4.5rem] w-[25rem] px-4 py-2 text-sm font-normal leading-normal text-[#111618]">
                       {review.name || 'Anonymous'}
                     </td>
-                    <td className="h-[72px] w-[400px] px-4 py-2 text-sm font-normal leading-normal text-[#617c89]">
+                    <td className="h-[4.5rem] w-[25rem] px-4 py-2 text-sm font-normal leading-normal text-[#617c89]">
                       {review.content}
                     </td>
-                    <td className="h-[72px] w-60 px-4 py-2 text-sm font-normal leading-normal">
-                      <button className="flex h-8 w-full min-w-[84px] max-w-[480px] items-center justify-center rounded-lg bg-[#f0f3f4] px-4 text-sm font-medium leading-normal text-[#111618]">
+                    <td className="h-[4.5rem] w-60 px-4 py-2 text-sm font-normal leading-normal">
+                      <button className="flex h-8 w-full min-w-[5.25rem] max-w-[30rem] items-center justify-center rounded-lg bg-[#f0f3f4] px-4 text-sm font-medium leading-normal text-[#111618]">
                         <span className="truncate">{review.rating} כוכבים</span>
                       </button>
                     </td>
-                    <td className="h-[72px] w-60 px-4 py-2 text-sm font-bold leading-normal tracking-[0.015em] text-[#617c89]">
+                    <td className="h-[4.5rem] w-60 px-4 py-2 text-sm font-bold leading-normal tracking-[0.015em] text-[#617c89]">
                       <button
                         onClick={() => handleDeleteReview(review.id, review.name)}
                         className="text-[#111618] hover:underline"

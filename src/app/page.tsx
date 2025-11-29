@@ -50,10 +50,10 @@ const valueHighlights = [
 export default function HomePage() {
     return (
         <div className="px-4 sm:px-6 lg:px-10 flex flex-1 justify-center py-7 md:py-5">
-            <div className="layout-content-container flex flex-col w-full max-w-[960px]">
+            <div className="layout-content-container flex flex-col w-full max-w-[60rem]">
                 <div>
                     <div className="sm:p-4">
-                        <div className="relative flex min-h-[420px] sm:min-h-[480px] flex-col gap-6 sm:gap-8 rounded-lg items-center justify-center p-4 overflow-hidden">
+                        <div className="relative flex min-h-[26.25rem] sm:min-h-[30rem] flex-col gap-6 sm:gap-8 rounded-lg items-center justify-center p-4 overflow-hidden">
                             <Image
                                 src="/home-1.png"
                                 alt={NEXT_PUBLIC_HOME_HERO_HEADLINE}
@@ -69,7 +69,7 @@ export default function HomePage() {
                                 </h1>
                                 <Link
                                     href="/contact-us"
-                                    className="relative z-10 flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 sm:h-12 px-4 sm:px-5 bg-[#13a4ec] text-white text-sm sm:text-base font-bold leading-normal tracking-[0.015em]"
+                                    className="relative z-10 flex min-w-[5.25rem] max-w-[30rem] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 sm:h-12 px-4 sm:px-5 bg-[#13a4ec] text-white text-sm sm:text-base font-bold leading-normal tracking-[0.015em]"
                                 >
                                     <span className="truncate">צרו קשר לייעוץ חינם</span>
                                 </Link>
@@ -78,7 +78,7 @@ export default function HomePage() {
                     </div>
                 </div>
 
-                <h2 className="text-[#111618] text-xl sm:text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
+                <h2 className="text-[#111618] text-xl sm:text-[1.375rem] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
                     {NEXT_PUBLIC_HOME_SOLUTIONS_HEADING}
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4">
@@ -102,7 +102,7 @@ export default function HomePage() {
                     ))}
                 </div>
 
-                <h2 className="text-[#111618] text-xl sm:text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
+                <h2 className="text-[#111618] text-xl sm:text-[1.375rem] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
                     {NEXT_PUBLIC_HOME_VALUES_HEADING}
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4">
@@ -121,7 +121,7 @@ export default function HomePage() {
 
                 <h2
                     id="reviews"
-                    className="text-[#111618] text-xl sm:text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5"
+                    className="text-[#111618] text-xl sm:text-[1.375rem] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5"
                 >
                     {NEXT_PUBLIC_HOME_REVIEWS_HEADING}
                 </h2>
@@ -134,17 +134,17 @@ export default function HomePage() {
                 <FadeUp>
                     <div className="flex flex-col justify-end gap-6 px-4 py-10 sm:gap-8 sm:px-10 sm:py-20">
                         <div className="flex flex-col gap-3 text-center">
-                            <h1 className="text-[#111618] text-2xl sm:text-4xl font-bold leading-tight tracking-[-0.02em] max-w-[720px] mx-auto">
+                            <h1 className="text-[#111618] text-2xl sm:text-4xl font-bold leading-tight tracking-[-0.02em] max-w-[45rem] mx-auto">
                                 {NEXT_PUBLIC_HOME_CTA_HEADING}
                             </h1>
-                            <p className="text-[#617c89] text-base sm:text-lg leading-relaxed max-w-[640px] mx-auto">
+                            <p className="text-[#617c89] text-base sm:text-lg leading-relaxed max-w-[40rem] mx-auto">
                                 {NEXT_PUBLIC_HOME_CTA_TEXT}
                             </p>
                         </div>
                         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
                             <Link
                                 href="/contact-us"
-                                className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 sm:h-12 px-4 sm:px-5 bg-[#13a4ec] text-white text-sm sm:text-base font-bold leading-normal tracking-[0.015em] w-full sm:w-auto"
+                                className="flex min-w-[5.25rem] max-w-[30rem] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 sm:h-12 px-4 sm:px-5 bg-[#13a4ec] text-white text-sm sm:text-base font-bold leading-normal tracking-[0.015em] w-full sm:w-auto"
                             >
                                 <span className="truncate">צרו קשר לייעוץ חינם</span>
                             </Link>

@@ -15,7 +15,7 @@ const tabs: { key: AdminTabKey; label: string }[] = [
 
 export function TabsNav({ activeTab, onChange }: Props) {
   return (
-    <div className="mt-10 border-b border-[#dbe2e6] mx-auto w-full max-w-[960px]">
+    <div className="mt-10 border-b border-[#dbe2e6] mx-auto w-full max-w-[60rem]">
       <div className="flex gap-6 px-4 sm:px-6 overflow-x-auto">
         {tabs.map((t) => {
           const active = activeTab === t.key;

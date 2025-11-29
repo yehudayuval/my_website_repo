@@ -48,10 +48,10 @@ export default function AdminLoginPage() {
     <main className="px-4 sm:px-6 lg:px-10 flex flex-1 justify-center py-6">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-[480px] mx-auto bg-white"
+        className="w-full max-w-[30rem] mx-auto bg-white"
         noValidate
       >
-        <h2 className="text-[#111618] text-2xl sm:text-[28px] font-bold leading-tight text-center pb-2">כניסת מנהל</h2>
+        <h2 className="text-[#111618] text-2xl sm:text-[1.75rem] font-bold leading-tight text-center pb-2">כניסת מנהל</h2>
 
         <div className="flex flex-col gap-1 px-0 sm:px-1 py-3">
           <label htmlFor="email" className="text-[#111618] text-sm font-medium leading-normal">אימייל</label>
@@ -108,7 +108,7 @@ export default function AdminLoginPage() {
             type="submit"
             disabled={loading}
             aria-busy={loading}
-            className="flex w-full sm:w-auto min-w-[120px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-11 px-5 bg-[#13a4ec] disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-bold leading-normal tracking-[0.015em]"
+            className="flex w-full sm:w-auto min-w-[7.5rem] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-11 px-5 bg-[#13a4ec] disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-bold leading-normal tracking-[0.015em]"
           >
             <span className="flex items-center gap-2">
               <span className="truncate">{loading ? 'מתחבר ' : 'התחברות'}</span>

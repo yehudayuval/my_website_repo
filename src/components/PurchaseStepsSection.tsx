@@ -20,7 +20,7 @@ type PurchaseStepsSectionProps = {
 export function PurchaseStepsSection({ title, steps, about = 'purchase-steps-section' }: PurchaseStepsSectionProps) {
   return (
     <>
-      <h2 className="text-[#111618] text-[20px] sm:text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
+      <h2 className="text-[#111618] text-[1.25rem] sm:text-[1.375rem] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
         {title}
       </h2>
       <section className="grid grid-cols-[40px_1fr] gap-x-2 px-4" about={about}>

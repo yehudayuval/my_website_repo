@@ -5,7 +5,7 @@ export const metadata = {
 export default function ContactUsPage() {
   return (
     <div className="px-4 sm:px-6 lg:px-10 flex flex-1 justify-center py-5">
-      <div className="flex flex-col w-full max-w-[960px]">
+      <div className="flex flex-col w-full max-w-[60rem]">
         <h3 className="text-[#111618] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-14">
           פרטי התקשרות
         </h3>

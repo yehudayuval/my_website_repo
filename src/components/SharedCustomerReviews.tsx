@@ -3,7 +3,7 @@
 export function SharedCustomerReviews() {
   return (
     <section className="w-full">
-      <h2 className="text-[#111618] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 sm:px-6 pb-3 pt-5">
+      <h2 className="text-[#111618] text-[1.375rem] font-bold leading-tight tracking-[-0.015em] px-4 sm:px-6 pb-3 pt-5">
         Shared Customer Reviews
       </h2>
       <div className="flex flex-col gap-8 overflow-x-hidden bg-white p-4 sm:px-6">

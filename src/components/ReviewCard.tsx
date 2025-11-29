@@ -31,7 +31,7 @@ export default function ReviewCard({ review, className = "" }: ReviewCardProps) 
     <article
       dir="rtl"
       className={[
-        "flex-none w-[320px] md:w-[360px]",
+        "flex-none w-[20rem] md:w-[22.5rem]",
         "rounded-xl border border-[#dbe2e6] bg-white shadow-sm",
         "p-5 inline-block align-top",
         className,
